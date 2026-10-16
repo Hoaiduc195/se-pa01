@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Proposal: StudyMate | CSC13002 - HCMUS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryBorderColor: '#3d7a64',
+                primaryTextColor: '#0f172a',
+                lineColor: '#3d7a64',
+                secondaryColor: '#f0f7f4',
+                tertiaryColor: '#ffffff',
+                nodeBorder: '#3d7a64',
+                clusterBkg: '#f7fbf8',
+                clusterBorder: '#b6ddc9',
+                edgeLabelBackground: '#ffffff',
+                fontFamily: 'Inter, -apple-system, sans-serif',
+                fontSize: '14px'
+            },
+            flowchart: {
+                curve: 'linear',
+                htmlLabels: true
+            }
+        });
+    </script>
+    <style>
+        :root {
+            --bg-body: #f8faf9;
+            --bg-surface: #ffffff;
+            --bg-sidebar: #f3f9f5;
+            --text-main: #0f172a;
+            --text-sub: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2ebe6;
+            --border-dark: #3d7a64;
+            --border-strong: #b6ddc9;
+            --primary: #3d7a64;
+            --primary-hover: #2e5f4d;
+            --primary-bg: #f0f7f4;
+            --table-header: #edf6f1;
+            --table-stripe: #ffffff;
+            --code-bg: #f7fbf8;
+            --scrollbar-thumb: #b6ddc9;
+            --scrollbar-thumb-hover: #3d7a64;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0a1612;
+            --bg-surface: #0f1f1a;
+            --bg-sidebar: #091612;
+            --text-main: #f8fafc;
+            --text-sub: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border: #1a332a;
+            --border-dark: #6ee7b7;
+            --border-strong: #059669;
+            --primary: #6ee7b7;
+            --primary-hover: #a7f3d0;
+            --primary-bg: #064e3b;
+            --table-header: #064e3b;
+            --table-stripe: #0f1f1a;
+            --code-bg: #042f24;
+            --scrollbar-thumb: #065f46;
+            --scrollbar-thumb-hover: #6ee7b7;
+        }
+
+        /* RESET VÀ GEOMETRIC RULES: TUYỆT ĐỐI KHÔNG BO TRÒN */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            border-radius: 0 !important;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            font-size: 14.5px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* TOP NAVIGATION */
+        header.top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-surface);
+            border-bottom: 2px solid var(--border-strong);
+        }
+
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.85rem 2rem;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .brand-box {
+            padding: 0.35rem 0.65rem;
+            border: 1px solid var(--primary);
+            background: var(--primary);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .brand-text h1 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            line-height: 1.2;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .brand-text p {
+            font-size: 0.725rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-surface);
+            color: var(--primary);
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+            text-decoration: none;
+            line-height: 1.2;
+        }
+
+        .btn:hover {
+            background: var(--primary-bg);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            color: #ffffff;
+        }
+
+        /* LAYOUT */
+        .layout-wrapper {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        /* SIDEBAR TOC */
+        aside.sidebar {
+            width: 310px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 57px;
+            height: calc(100vh - 57px);
+            overflow-y: auto;
+            padding: 2rem 1.25rem;
+            border-right: 1px solid var(--border);
+            background: var(--bg-sidebar);
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) transparent;
+        }
+
+        /* CUSTOM ELEGANT SLIM SCROLLBARS (SHARP, MINIMALIST) */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            transition: background 0.15s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+
+        /* SIDEBAR SPECIFIC REFINED MINIMALIST SCROLLBAR (6PX) */
+        aside.sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        aside.sidebar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        aside.sidebar::-webkit-scrollbar-thumb {
+            background: #bfdbfe;
+            transition: background 0.2s ease;
+        }
+
+        aside.sidebar:hover::-webkit-scrollbar-thumb {
+            background: #93c5fd;
+        }
+
+        aside.sidebar::-webkit-scrollbar-thumb:hover {
+            background: #1d4ed8 !important;
+        }
+
+        [data-theme="dark"] aside.sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        [data-theme="dark"] aside.sidebar::-webkit-scrollbar-thumb {
+            background: #1e3a5f;
+        }
+
+        [data-theme="dark"] aside.sidebar:hover::-webkit-scrollbar-thumb {
+            background: #2563eb;
+        }
+
+        [data-theme="dark"] aside.sidebar::-webkit-scrollbar-thumb:hover {
+            background: #60a5fa !important;
+        }
+
+        .sidebar-header {
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-strong);
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item a {
+            display: block;
+            padding: 0.35rem 0.6rem;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: all 0.15s;
+            line-height: 1.4;
+        }
+
+        .toc-item a:hover {
+            color: var(--primary);
+            background: var(--primary-bg);
+            border-left-color: var(--primary);
+        }
+
+        .toc-item a.active {
+            border-left-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-bg);
+            font-weight: 700;
+        }
+
+        .toc-h1 {
+            margin-top: 0.85rem;
+            font-weight: 700;
+        }
+        .toc-h1 > a {
+            color: var(--primary);
+            font-size: 0.825rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .toc-h2 {
+            padding-left: 0.75rem;
+            font-weight: 600;
+        }
+        .toc-h3 {
+            padding-left: 1.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* MAIN CONTENT AREA */
+        main.main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 2.5rem 3.5rem;
+            max-width: 1020px;
+            margin: 0 auto;
+            background: var(--bg-body);
+        }
+
+        /* ACADEMIC TITLE CARD */
+        .academic-title-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            border-top: 4px solid var(--primary);
+            padding: 2.5rem 3rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .card-affiliation {
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .univ-name {
+            font-size: 0.825rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        .faculty-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-top: 0.25rem;
+        }
+
+        .dept-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        .card-badge-row {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.55rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-surface);
+            color: var(--primary);
+        }
+
+        .badge-dark {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .badge-highlight {
+            background: var(--primary-bg);
+            color: var(--primary);
+            border-color: var(--border-strong);
+            font-weight: 700;
+        }
+
+        .card-doc-title {
+            font-size: 1.65rem;
+            font-weight: 800;
+            line-height: 1.35;
+            color: var(--text-main);
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+        }
+
+        .card-project-box {
+            background: var(--code-bg);
+            border: 1px solid var(--border-strong);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .project-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.45;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-desc {
+            font-size: 0.875rem;
+            color: var(--text-sub);
+            line-height: 1.65;
+        }
+
+        .card-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .meta-cell {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .meta-value {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* MARKDOWN BODY STYLING */
+        .markdown-body {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            padding: 3.5rem;
+        }
+
+        .markdown-body h1 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin-top: 3rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .markdown-body h1:first-child {
+            margin-top: 0;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 2.25rem;
+            margin-bottom: 0.85rem;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-strong);
+            padding-bottom: 0.4rem;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.65rem;
+            color: var(--primary);
+        }
+
+        .markdown-body h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.45rem;
+            color: var(--text-sub);
+        }
+
+        .markdown-body p {
+            margin-bottom: 1.15rem;
+            color: var(--text-sub);
+            text-align: justify;
+            line-height: 1.75;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 1.25rem;
+            padding-left: 1.75rem;
+            color: var(--text-sub);
+        }
+
+        .markdown-body li {
+            margin-bottom: 0.45rem;
+            line-height: 1.65;
+        }
+
+        .markdown-body hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-strong);
+            margin: 2.5rem 0;
+        }
+
+        .markdown-body blockquote {
+            margin: 1.75rem 0;
+            padding: 1.15rem 1.5rem;
+            border-left: 4px solid var(--primary);
+            background: var(--primary-bg);
+            color: var(--text-main);
+            font-style: normal;
+        }
+
+        .markdown-body blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* MONOSPACE CODE */
+        .markdown-body pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-strong);
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            margin: 1.5rem 0;
+            color: var(--text-main);
+        }
+
+        .markdown-body code {
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            font-size: 0.85em;
+            background: var(--code-bg);
+            padding: 0.15rem 0.35rem;
+            border: 1px solid var(--border-strong);
+            color: var(--primary);
+        }
+
+        .markdown-body pre code {
+            background: transparent;
+            padding: 0;
+            border: 0;
+            color: inherit;
+        }
+
+        /* TABLES */
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.85rem;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-surface);
+        }
+
+        .markdown-body th {
+            background: var(--table-header);
+            font-weight: 700;
+            color: var(--primary);
+            text-align: left;
+            padding: 0.85rem 1rem;
+            border-bottom: 2px solid var(--primary);
+            border-right: 1px solid var(--border);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .markdown-body th:last-child {
+            border-right: 0;
+        }
+
+        .markdown-body td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            color: var(--text-sub);
+            vertical-align: top;
+            line-height: 1.55;
+        }
+
+        .markdown-body td:last-child {
+            border-right: 0;
+        }
+
+        .markdown-body tr:nth-child(even) td {
+            background-color: var(--table-stripe);
+        }
+
+        .markdown-body tr:hover td {
+            background-color: var(--primary-bg);
+        }
+
+        [data-theme="dark"] .markdown-body tr:hover td {
+            background-color: #172554;
+        }
+
+        /* DIAGRAM FIGURE CARD */
+        .diagram-figure {
+            margin: 2.5rem 0;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-surface);
+        }
+
+        .diagram-figure-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.25rem;
+            background: var(--table-header);
+            border-bottom: 1px solid var(--border-strong);
+        }
+
+        .diagram-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .diagram-figure-badge {
+            padding: 0.2rem 0.5rem;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 0.675rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .diagram-figure-title {
+            font-size: 0.825rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--primary);
+        }
+
+        .diagram-type-tag {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--primary);
+            text-transform: uppercase;
+            border: 1px solid var(--border-strong);
+            background: var(--bg-surface);
+            padding: 0.15rem 0.45rem;
+        }
+
+        .diagram-figure-canvas {
+            padding: 2.25rem 1.5rem;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        [data-theme="dark"] .diagram-figure-canvas {
+            background: #111827;
+        }
+
+        .diagram-figure-canvas .mermaid-rendered,
+        .diagram-figure-canvas .mermaid-slot {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .diagram-figure-canvas svg {
+            display: block;
+            margin: 0 auto;
+            max-width: 100% !important;
+            height: auto !important;
+        }
+
+        #diagram-1 .diagram-figure-canvas svg {
+            min-width: min(100%, 780px);
+        }
+
+        #diagram-2 .diagram-figure-canvas svg {
+            min-width: 860px;
+        }
+
+        #diagram-3 .diagram-figure-canvas svg {
+            min-width: min(100%, 640px);
+        }
+
+        /* DYNAMIC PASTEL THEMING FOR MERMAID SVGS */
+        .diagram-figure-canvas svg {
+            transition: all 0.2s ease;
+        }
+
+        .diagram-figure-canvas svg .node rect,
+        .diagram-figure-canvas svg .node polygon,
+        .diagram-figure-canvas svg .node circle {
+            stroke: var(--primary) !important;
+            fill: var(--bg-surface) !important;
+            rx: 0 !important;
+            ry: 0 !important;
+            transition: stroke 0.2s, fill 0.2s;
+        }
+
+        .diagram-figure-canvas svg .edgePaths path,
+        .diagram-figure-canvas svg .edgePath path,
+        .diagram-figure-canvas svg path.flowchart-link {
+            stroke: var(--primary) !important;
+            transition: stroke 0.2s;
+        }
+
+        .diagram-figure-canvas svg .cluster rect {
+            stroke: var(--border-strong) !important;
+            fill: var(--primary-bg) !important;
+            rx: 0 !important;
+            ry: 0 !important;
+            transition: stroke 0.2s, fill 0.2s;
+        }
+
+        .diagram-figure-canvas svg marker path,
+        .diagram-figure-canvas svg .marker {
+            fill: var(--primary) !important;
+            stroke: var(--primary) !important;
+            transition: fill 0.2s, stroke 0.2s;
+        }
+
+        .diagram-figure-canvas svg .label text,
+        .diagram-figure-canvas svg .nodeLabel,
+        .diagram-figure-canvas svg .label span {
+            color: var(--text-main) !important;
+            fill: var(--text-main) !important;
+        }
+
+        .diagram-figure-canvas svg .edgeLabel rect {
+            fill: var(--bg-surface) !important;
+        }
+
+        .diagram-figure-caption {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            text-align: center;
+            border-top: 1px solid var(--border);
+            background: var(--bg-surface);
+            font-style: italic;
+        }
+
+        .diagram-source-toggle {
+            border-top: 1px solid var(--border);
+            background: var(--code-bg);
+            font-size: 0.75rem;
+        }
+
+        .diagram-source-toggle summary {
+            padding: 0.5rem 1.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            outline: none;
+        }
+
+        .diagram-source-toggle summary:hover {
+            color: var(--text-main);
+        }
+
+        .diagram-source-toggle pre {
+            margin: 0 !important;
+            border: 0 !important;
+            border-top: 1px solid var(--border) !important;
+        }
+
+        /* FOOTER */
+        footer.app-footer {
+            border-top: 1px solid var(--border);
+            background: var(--bg-surface);
+            padding: 3rem 0;
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* BACK TO TOP */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 0.6rem 1rem;
+            background: var(--primary);
+            color: #ffffff;
+            border: 1px solid var(--primary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s, background 0.2s;
+            z-index: 40;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-hover);
+            color: #ffffff;
+            border-color: var(--primary-hover);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-strong);
+            border-top: 4px solid var(--primary);
+            width: 100%;
+            max-width: 920px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--table-header);
+        }
+
+        .modal-header h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-body textarea {
+            width: 100%;
+            height: 480px;
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            font-size: 0.825rem;
+            background: var(--code-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-strong);
+            padding: 1rem;
+            resize: none;
+            line-height: 1.6;
+            outline: none;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            background: var(--table-header);
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            header.top-nav, aside.sidebar, .back-to-top, .btn, .diagram-source-toggle {
+                display: none !important;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 10pt;
+            }
+            .layout-wrapper {
+                display: block !important;
+            }
+            main.main-content {
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+            .academic-title-card, .markdown-body, .diagram-figure {
+                border: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .markdown-body h1 {
+                page-break-before: always;
+                border-bottom: 1.5pt solid #000;
+            }
+            .markdown-body table {
+                page-break-inside: auto;
+                border: 1pt solid #000;
+            }
+            .markdown-body tr {
+                page-break-inside: avoid;
+            }
+            .diagram-figure {
+                page-break-inside: avoid;
+                margin: 1.5rem 0 !important;
+                border: 1pt solid #ccc !important;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            aside.sidebar {
+                display: none;
+            }
+            main.main-content {
+                padding: 1.5rem 1rem;
+            }
+            .markdown-body {
+                padding: 1.75rem 1.25rem;
+            }
+            .academic-title-card {
+                padding: 1.5rem 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+    <header class="top-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-brand">
+                <div class="brand-box">STUDYMATE</div>
+                <div class="brand-text">
+                    <h1>Project Proposal</h1>
+                    <p>Nhập môn Công nghệ phần mềm (CSC13002) • Khoa CNTT, ĐH KHTN</p>
+                </div>
+            </a>
+            <div class="nav-actions">
+                <button class="btn" id="themeToggleBtn" title="Chuyển chế độ Giao diện">
+                    <span id="themeText">CHẾ ĐỘ TỐI</span>
+                </button>
+                <button class="btn" onclick="openRawModal()" title="Xem mã nguồn Markdown gốc">
+                    <span>XEM MÃ NGUỒN MD</span>
+                </button>
+                <a class="btn" href="ProjectProposal.md" download title="Tải file Markdown (.md) chuẩn">
+                    <span>TẢI FILE (.MD)</span>
+                </a>
+                <a class="btn" href="docs/ProjectProposal.docx" download title="Tải file Word (.docx) hoàn chỉnh">
+                    <span>TẢI WORD (.DOCX)</span>
+                </a>
+                <button class="btn btn-primary" onclick="window.print()" title="In ra giấy hoặc xuất PDF chuẩn A4">
+                    <span>IN / XUẤT PDF</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- LAYOUT -->
+    <div class="layout-wrapper">
+        <!-- SIDEBAR TOC -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Mục lục tài liệu</div>
+                <div class="sidebar-subtitle">Đề cương Đồ án PA01 (5 phần)</div>
+            </div>
+            <ul class="toc-list">
+                <li class="toc-item toc-h1"><a href="#sec-1-bang-danh-gia-thanh-vien" data-target="sec-1-bang-danh-gia-thanh-vien">1 Bảng đánh giá thành viên</a></li>
+<li class="toc-item toc-h1"><a href="#sec-2-phat-bieu-bai-toan-so-luoc" data-target="sec-2-phat-bieu-bai-toan-so-luoc">2 Phát biểu bài toán sơ lược</a></li>
+<li class="toc-item toc-h3"><a href="#sec-21-boi-canh-va-ly-do-chon-de-tai" data-target="sec-21-boi-canh-va-ly-do-chon-de-tai">2.1. Bối cảnh và Lý do chọn đề tài</a></li>
+<li class="toc-item toc-h3"><a href="#sec-22-khao-sat-thuc-trang-va-phan-tich-doi-thu-canh-tranh-tren-thi-truong" data-target="sec-22-khao-sat-thuc-trang-va-phan-tich-doi-thu-canh-tranh-tren-thi-truong">2.2. Khảo sát thực trạng và Phân tích đối thủ cạnh tranh trên thị trường</a></li>
+<li class="toc-item toc-h3"><a href="#sec-23-muc-tieu-va-pham-vi-cua-he-thong" data-target="sec-23-muc-tieu-va-pham-vi-cua-he-thong">2.3. Mục tiêu và Phạm vi của hệ thống</a></li>
+<li class="toc-item toc-h3"><a href="#sec-24-moi-truong-hoat-dong-cua-phan-mem" data-target="sec-24-moi-truong-hoat-dong-cua-phan-mem">2.4. Môi trường hoạt động của phần mềm</a></li>
+<li class="toc-item toc-h3"><a href="#sec-25-cac-rang-buoc-ve-thiet-ke-va-trien-khai" data-target="sec-25-cac-rang-buoc-ve-thiet-ke-va-trien-khai">2.5. Các ràng buộc về thiết kế và triển khai</a></li>
+<li class="toc-item toc-h1"><a href="#sec-3-giai-phap-de-xuat" data-target="sec-3-giai-phap-de-xuat">3 Giải pháp đề xuất</a></li>
+<li class="toc-item toc-h2"><a href="#sec-31-phan-mem" data-target="sec-31-phan-mem">3.1 Phần mềm</a></li>
+<li class="toc-item toc-h3"><a href="#sec-311-danh-sach-cac-chuc-nang-phan-mem" data-target="sec-311-danh-sach-cac-chuc-nang-phan-mem">3.1.1. Danh sách các chức năng phần mềm</a></li>
+<li class="toc-item toc-h3"><a href="#sec-312-kien-truc-tong-the-phan-mem" data-target="sec-312-kien-truc-tong-the-phan-mem">3.1.2. Kiến trúc tổng thể phần mềm</a></li>
+<li class="toc-item toc-h2"><a href="#sec-32-phan-cung" data-target="sec-32-phan-cung">3.2 Phần cứng</a></li>
+<li class="toc-item toc-h3"><a href="#sec-321-yeu-cau-phan-cung-may-chu-server-requirements" data-target="sec-321-yeu-cau-phan-cung-may-chu-server-requirements">3.2.1. Yêu cầu phần cứng Máy chủ (Server Requirements)</a></li>
+<li class="toc-item toc-h3"><a href="#sec-322-yeu-cau-phan-cung-thiet-bi-nguoi-dung-client-requirements" data-target="sec-322-yeu-cau-phan-cung-thiet-bi-nguoi-dung-client-requirements">3.2.2. Yêu cầu phần cứng Thiết bị Người dùng (Client Requirements)</a></li>
+<li class="toc-item toc-h1"><a href="#sec-4-ke-hoach-phat-trien" data-target="sec-4-ke-hoach-phat-trien">4 Kế hoạch phát triển</a></li>
+<li class="toc-item toc-h3"><a href="#sec-41-phan-tich-yeu-cau-tuan-1-tuan-3" data-target="sec-41-phan-tich-yeu-cau-tuan-1-tuan-3">4.1 Phân tích yêu cầu (Tuần 1 – Tuần 3)</a></li>
+<li class="toc-item toc-h3"><a href="#sec-42-thiet-ke-phan-mem-tuan-4-tuan-6" data-target="sec-42-thiet-ke-phan-mem-tuan-4-tuan-6">4.2 Thiết kế phần mềm (Tuần 4 – Tuần 6)</a></li>
+<li class="toc-item toc-h3"><a href="#sec-43-cai-dat-implement-phan-mem-tuan-7-tuan-9" data-target="sec-43-cai-dat-implement-phan-mem-tuan-7-tuan-9">4.3 Cài đặt (implement) phần mềm (Tuần 7 – Tuần 9)</a></li>
+<li class="toc-item toc-h3"><a href="#sec-44-kiem-thu-phan-mem-tuan-10-tuan-11" data-target="sec-44-kiem-thu-phan-mem-tuan-10-tuan-11">4.4 Kiểm thử phần mềm (Tuần 10 – Tuần 11)</a></li>
+<li class="toc-item toc-h3"><a href="#sec-45-trien-khai-bao-tri-tuan-12" data-target="sec-45-trien-khai-bao-tri-tuan-12">4.5 Triển khai, bảo trì (Tuần 12)</a></li>
+<li class="toc-item toc-h1"><a href="#sec-5-ke-hoach-nhan-su-va-chi-phi" data-target="sec-5-ke-hoach-nhan-su-va-chi-phi">5 Kế hoạch nhân sự và chi phí</a></li>
+<li class="toc-item toc-h2"><a href="#sec-51-co-cau-to-chuc-va-phan-cong-vai-tro" data-target="sec-51-co-cau-to-chuc-va-phan-cong-vai-tro">5.1 Cơ cấu tổ chức và Phân công vai trò</a></li>
+<li class="toc-item toc-h2"><a href="#sec-52-du-toan-chi-phi-thuc-hien" data-target="sec-52-du-toan-chi-phi-thuc-hien">5.2 Dự toán chi phí thực hiện</a></li>
+<li class="toc-item toc-h1"><a href="#sec-ket-luan" data-target="sec-ket-luan">KẾT LUẬN</a></li>
+            </ul>
+        </aside>
+
+        <!-- MAIN ARTICLE -->
+        <main class="main-content">
+            <!-- ACADEMIC TITLE CARD -->
+            <section class="academic-title-card">
+                <div class="card-affiliation">
+                    <div class="univ-name">ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH</div>
+                    <div class="faculty-name">TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN • KHOA CÔNG NGHỆ THÔNG TIN</div>
+                    <div class="dept-name">BỘ MÔN CÔNG NGHỆ PHẦN MỀM</div>
+                </div>
+
+                <div class="card-badge-row">
+                    <span class="badge badge-dark">CSC13002</span>
+                    <span class="badge">NHẬP MÔN CÔNG NGHỆ PHẦN MỀM</span>
+                    <span class="badge">HỌC KỲ 1 / 2026-2027</span>
+                    <span class="badge badge-highlight">ĐỒ ÁN PA01</span>
+                </div>
+
+                <h1 class="card-doc-title">TÀI LIỆU ĐỀ XUẤT ĐỒ ÁN (PROJECT PROPOSAL)</h1>
+
+                <div class="card-project-box">
+                    <div class="project-tag">TÊN ĐỀ TÀI CHÍNH THỨC</div>
+                    <h2 class="project-title">StudyMate – Nền tảng Hỗ trợ Tìm bạn học và Ghép nhóm học tập thông minh theo Lĩnh vực và Định hướng cá nhân</h2>
+                    <p class="project-desc">Giải pháp kết nối sinh viên học tập theo cặp (Study Buddy) và học nhóm (Group Study), tích hợp không gian học tương tác thời gian thực (Realtime Pomodoro đôi, Shared Session To-do List), quét mã QR check-in điểm hẹn và cơ chế đảm bảo cam kết và an toàn (Anti-ghosting và Karma Score).</p>
+                </div>
+
+                <div class="card-meta-grid">
+                    <div class="meta-cell">
+                        <span class="meta-label">GIẢNG VIÊN PHỤ TRÁCH</span>
+                        <span class="meta-value">Bộ môn Công nghệ phần mềm</span>
+                    </div>
+                    <div class="meta-cell">
+                        <span class="meta-label">TRƯỞNG NHÓM (PROJECT MANAGER)</span>
+                        <span class="meta-value">Dương Hoài Đức – 24120040</span>
+                    </div>
+                    <div class="meta-cell">
+                        <span class="meta-label">MÔ HÌNH KIẾN TRÚC</span>
+                        <span class="meta-value">Kiến trúc 3 tầng (3-Tier) và Realtime</span>
+                    </div>
+                    <div class="meta-cell">
+                        <span class="meta-label">DANH SÁCH THÀNH VIÊN (4 THÀNH VIÊN)</span>
+                        <span class="meta-value">Đức (24120040) • Phúc (24120215) • Tân (24120438) • Quang (24120221)</span>
+                    </div>
+                    <div class="meta-cell">
+                        <span class="meta-label">TIÊU CHUẨN ĐỀ XUẤT</span>
+                        <span class="meta-value">Template#0-ProjectProposal-2022 (Khoa CNTT - HCMUS)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MARKDOWN CONTENT -->
+            <article class="markdown-body">
+                <h1 id="sec-1-bang-danh-gia-thanh-vien">1 Bảng đánh giá thành viên</h1>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">STT</th>
+<th style="text-align:center">MSSV</th>
+<th>Họ Tên</th>
+<th>Vai trò chính trong dự án</th>
+<th style="text-align:center">% Đóng góp (tối đa 100%)</th>
+<th style="text-align:center">Chữ ký</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><strong>24120040</strong></td>
+<td><strong>Dương Hoài Đức</strong></td>
+<td>Trưởng nhóm (Project Manager) và Tech Lead / System Architect</td>
+<td style="text-align:center">25%</td>
+<td style="text-align:center"><em>(Đã ký)</em></td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><strong>24120438</strong></td>
+<td><strong>Trần Nguyên Tân</strong></td>
+<td>Business Analyst (BA Lead) và Backend Developer</td>
+<td style="text-align:center">25%</td>
+<td style="text-align:center"><em>(Đã ký)</em></td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><strong>24120215</strong></td>
+<td><strong>Nguyễn Ngọc Phúc</strong></td>
+<td>Frontend Lead và Full-stack Developer</td>
+<td style="text-align:center">25%</td>
+<td style="text-align:center"><em>(Đã ký)</em></td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><strong>24120221</strong></td>
+<td><strong>Trần Công Quang</strong></td>
+<td>QA/QC Lead và Realtime Specialist</td>
+<td style="text-align:center">25%</td>
+<td style="text-align:center"><em>(Đã ký)</em></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Cam kết:</strong> Các thành viên trong nhóm đã cùng nhau tham gia thảo luận, thống nhất định hướng đề tài, hoàn thành các phần nội dung tương ứng và đồng thuận với tỷ lệ đánh giá đóng góp nêu trên.</p>
+</blockquote>
+<hr>
+<h1 id="sec-2-phat-bieu-bai-toan-so-luoc">2 Phát biểu bài toán sơ lược</h1>
+<h3 id="sec-21-boi-canh-va-ly-do-chon-de-tai">2.1. Bối cảnh và Lý do chọn đề tài</h3>
+<p>Trong môi trường đại học hiện đại, việc học tập theo nhóm (Peer Learning) và tìm kiếm bạn cùng tiến (Study Buddy) đã được khoa học giáo dục chứng minh là phương pháp nâng cao hiệu quả tiếp thu kiến thức, rèn luyện tư duy phản biện và gia tăng động lực hoàn thành bài tập môn học. Tuy nhiên, phần lớn sinh viên hiện nay vẫn gặp phải các rào cản nghiêm trọng:</p>
+<ol>
+<li><strong>Khó tìm bạn đồng hành phù hợp:</strong> Mạng lưới quen biết của sinh viên thường chỉ bó hẹp trong phạm vi lớp sinh hoạt. Khi bước vào các lớp học phần tín chỉ ghép lớp, đồ án liên ngành hoặc ôn luyện chứng chỉ ngoại ngữ (IELTS, TOEIC) / chứng chỉ kỹ thuật, việc tìm kiếm bạn học có cùng trình độ, chung mục tiêu điểm số và tương đồng về phong cách học là vô cùng khó khăn.</li>
+<li><strong>Sự không tương thích về phong cách học tập:</strong> Mỗi cá nhân có phong cách học riêng biệt: một số sinh viên thích học trong không gian hoàn toàn yên lặng (Silent Study), trong khi số khác cần thảo luận sôi nổi (Discussion) hoặc lập trình đôi (Pair Programming). Việc ghép cặp ngẫu nhiên hoặc qua các kênh tự phát dễ dẫn đến bất đồng và làm giảm năng suất học tập.</li>
+<li><strong>Hiện tượng hủy hẹn sát giờ hoặc vắng mặt không lý do (Ghosting / No-show):</strong> Trên các hội nhóm mạng xã hội (Facebook Group, Zalo), các buổi hẹn học chung thường xuyên bị hủy vào phút chót, đến muộn hoặc một bên không xuất hiện mà không có bất kỳ cơ chế ràng buộc hay chế tài xử lý nào.</li>
+<li><strong>Vấn đề an toàn và bảo mật thông tin cá nhân:</strong> Sinh viên thường e ngại gặp gỡ bạn học mới ngoài đời thực (tại quán cafe, thư viện) do lo ngại nguy cơ lừa đảo, quấy rối hoặc rò rỉ dữ liệu cá nhân (số điện thoại, mạng xã hội cá nhân) khi chưa có sự tin cậy.</li>
+</ol>
+<p>Xuất phát từ thực tế đó, nhóm đề xuất xây dựng hệ thống <strong>StudyMate</strong> – Nền tảng chuyên biệt hỗ trợ tìm kiếm bạn học và tổ chức các phiên học tập (Study Session / Group Study) tập trung, an toàn và kỷ luật dành cho cộng đồng sinh viên.</p>
+<h3 id="sec-22-khao-sat-thuc-trang-va-phan-tich-doi-thu-canh-tranh-tren-thi-truong">2.2. Khảo sát thực trạng và Phân tích đối thủ cạnh tranh trên thị trường</h3>
+<p>Trong bối cảnh chuyển đổi số giáo dục, nhu cầu tìm bạn học cùng tiến và thành lập nhóm học tập của sinh viên ngày càng gia tăng. Tuy nhiên, các giải pháp hiện có trên thị trường đều bộc lộ những khiếm khuyết lớn, chưa thể đáp ứng trọn vẹn nhu cầu học thuật nghiêm túc và an toàn của sinh viên. Nhóm đã tiến hành khảo sát và phân tích đối chiếu với 3 nhóm đối thủ / nền tảng phổ biến nhất hiện nay:</p>
+<h4 id="sec-221-phan-tich-cac-giai-phap-hien-co-tren-thi-truong">2.2.1. Phân tích các giải pháp hiện có trên thị trường</h4>
+<ol>
+<li><strong>Nhóm 1: Các hội nhóm Mạng xã hội tự phát (Facebook Groups, Zalo, diễn đàn sinh viên)</strong>
+<ul>
+<li><em>Thực trạng sử dụng:</em> Sinh viên tự đăng bài tìm bạn học môn học phần hoặc lập nhóm làm bài tập lớn trên các hội nhóm mạng xã hội.</li>
+<li><em>Hạn chế chí mạng:</em>
+<ul>
+<li><em>Bài viết trôi nhanh và thiếu bộ lọc:</em> Không có thuật toán phân loại, sinh viên phải lướt qua hàng trăm bài đăng giải trí, quảng cáo nhà trọ mới tìm thấy một bài học tập liên quan.</li>
+<li><em>Vấn nạn bùng kèo (Ghosting) tràn lan:</em> Do không có cơ chế cam kết, người hẹn dễ dàng hủy hẹn sát giờ, đến muộn hoặc không xuất hiện mà không chịu bất kỳ chế tài nào, gây lãng phí lớn thời gian và công sức của đối phương.</li>
+<li><em>Rủi ro bảo mật và quấy rối:</em> Việc chia sẻ số điện thoại cá nhân, link Facebook trên mạng xã hội công khai tạo kẽ hở cho các đối tượng lừa đảo, tiếp thị đa cấp hoặc quấy rối cá nhân.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Nhóm 2: Các ứng dụng Phòng học ảo và Nhóm cộng đồng trực tuyến (Discord, Study Together, Forest)</strong>
+<ul>
+<li><em>Thực trạng sử dụng:</em> Cung cấp các phòng họp âm thanh/video hoặc bot đồng hồ Pomodoro để người dùng khắp nơi cùng mở máy tính ngồi học trực tuyến.</li>
+<li><em>Hạn chế chí mạng:</em>
+<ul>
+<li><em>Nặc danh và thiếu xác thực học thuật:</em> Bất kỳ ai cũng có thể tạo tài khoản tham gia mà không cần chứng minh tư cách sinh viên. Thiếu cơ chế eKYC dẫn đến tình trạng người lạ vào phòng quậy phá (troll/raid), phát nội dung độc hại.</li>
+<li><em>Không hỗ trợ gặp gỡ học tập trực tiếp (Offline):</em> Nền tảng chỉ phục vụ môi trường ảo, không có khả năng gợi ý vị trí địa lý, không tích hợp địa điểm quán cafe/thư viện quanh trường và không thể xác nhận có mặt thực tế.</li>
+<li><em>Không cá nhân hóa theo môn học đại học:</em> Không thể ghép đôi theo đúng môn học phần của chương trình đào tạo tín chỉ tại Việt Nam (như Giải tích, Cấu trúc dữ liệu và Giải thuật, Hệ điều hành...).</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Nhóm 3: Các ứng dụng Kết bạn và Hẹn hò đại chúng (Bumble BFF, Tinder)</strong>
+<ul>
+<li><em>Thực trạng sử dụng:</em> Một số sinh viên thử dùng tính năng kết bạn của ứng dụng hẹn hò để tìm bạn có chung sở thích.</li>
+<li><em>Hạn chế chí mạng:</em>
+<ul>
+<li><em>Lệch hướng mục đích cốt lõi:</em> Phần lớn người dùng trên các ứng dụng này tìm kiếm mối quan hệ tình cảm hoặc trò chuyện phiếm, thiếu nghiêm túc về mặt học thuật.</li>
+<li><em>Hoàn toàn không có dữ liệu học thuật:</em> Không hỗ trợ trường thông tin về trường đại học, khoa, môn học ưu tiên, mục tiêu điểm số (kéo GPA, săn học bổng) hay phong cách học (học yên tĩnh, code đôi).</li>
+<li><em>Thiếu công cụ hỗ trợ phiên học:</em> Không có đồng hồ Pomodoro, không có bảng mục tiêu chung (To-do list) và không có cơ chế chế tài kỷ luật học tập.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="sec-222-bang-so-sanh-doi-dau-truc-dien-competitive-feature-matrix">2.2.2. Bảng so sánh đối đầu trực diện (Competitive Feature Matrix)</h4>
+<table>
+<thead>
+<tr>
+<th>Tiêu chí so sánh và Năng lực cốt lõi</th>
+<th style="text-align:center">Mạng xã hội tự phát (Facebook / Zalo)</th>
+<th style="text-align:center">Phòng học ảo trực tuyến (Discord / Study Together)</th>
+<th style="text-align:center">Ứng dụng kết bạn chung (Bumble BFF / Tinder)</th>
+<th style="text-align:center">Giải pháp đề xuất StudyMate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Định danh học thuật tin cậy</strong> <em>(Bắt buộc email trường <code>@*.edu.vn</code> và duyệt thẻ SV)</em></td>
+<td style="text-align:center">Không <em>(Tài khoản ảo, nặc danh)</em></td>
+<td style="text-align:center">Không <em>(Tự do đăng ký, không xác thực trường)</em></td>
+<td style="text-align:center">Hạn chế <em>(Chỉ xác thực gương mặt, không xác thực học thuật)</em></td>
+<td style="text-align:center"><strong>Toàn diện</strong> <em>(Bắt buộc email trường và cấp huy hiệu thẻ SV)</em></td>
+</tr>
+<tr>
+<td><strong>2. Thuật toán gợi ý ghép bạn chuyên sâu</strong> <em>(Dựa trên môn học, giờ rảnh, phong cách học)</em></td>
+<td style="text-align:center">Không <em>(Đăng bài thủ công, dễ trôi tin)</em></td>
+<td style="text-align:center">Không <em>(Tự tìm kênh thoại thủ công)</em></td>
+<td style="text-align:center">Hạn chế <em>(Chỉ lọc khoảng cách và sở thích chung)</em></td>
+<td style="text-align:center"><strong>Chuyên sâu</strong> <em>(Thuật toán Matching Matrix đa chiều)</em></td>
+</tr>
+<tr>
+<td><strong>3. Mô hình học tập hỗ trợ</strong></td>
+<td style="text-align:center">Không định hình</td>
+<td style="text-align:center">Chỉ trực tuyến <em>(Online only)</em></td>
+<td style="text-align:center">Chỉ gặp mặt trực tiếp</td>
+<td style="text-align:center"><strong>Linh hoạt cả Trực tiếp (Offline) và Trực tuyến (Online)</strong></td>
+</tr>
+<tr>
+<td><strong>4. Cơ chế chống bùng kèo (Anti-ghosting)</strong> <em>(Điểm uy tín và chế tài phạt khi hủy hẹn sát giờ)</em></td>
+<td style="text-align:center">Không có</td>
+<td style="text-align:center">Không có</td>
+<td style="text-align:center">Không có</td>
+<td style="text-align:center"><strong>Độc quyền</strong> <em>(Hệ thống điểm uy tín Karma và phạt trừ điểm)</em></td>
+</tr>
+<tr>
+<td><strong>5. Quét mã QR Check-in điểm hẹn</strong> <em>(Xác nhận có mặt thực tế trong 15 phút đầu)</em></td>
+<td style="text-align:center">Không hỗ trợ</td>
+<td style="text-align:center">Không hỗ trợ</td>
+<td style="text-align:center">Không hỗ trợ</td>
+<td style="text-align:center"><strong>Tích hợp sẵn</strong> <em>(Mã QR động xác thực có mặt tại điểm hẹn)</em></td>
+</tr>
+<tr>
+<td><strong>6. Công cụ hỗ trợ phiên học tương tác</strong> <em>(Realtime Pomodoro đôi, Shared To-do List)</em></td>
+<td style="text-align:center">Không có</td>
+<td style="text-align:center">Hạn chế <em>(Bot Pomodoro rời rạc)</em></td>
+<td style="text-align:center">Không có</td>
+<td style="text-align:center"><strong>Tích hợp sẵn</strong> <em>(Đồng bộ thời gian thực qua WebSockets)</em></td>
+</tr>
+<tr>
+<td><strong>7. Đánh giá hai chiều ẩn danh</strong> <em>(Double-Blind Review sau phiên học)</em></td>
+<td style="text-align:center">Không có</td>
+<td style="text-align:center">Không có</td>
+<td style="text-align:center">Không <em>(Chỉ có báo cáo vi phạm 1 chiều)</em></td>
+<td style="text-align:center"><strong>Có</strong> <em>(Đánh giá ẩn danh 2 chiều công bằng)</em></td>
+</tr>
+<tr>
+<td><strong>8. Bảo mật dữ liệu và Chống quấy rối</strong></td>
+<td style="text-align:center">Rất kém <em>(Lộ SĐT, link cá nhân, spam)</em></td>
+<td style="text-align:center">Kém <em>(Dễ bị troll/raid phòng học)</em></td>
+<td style="text-align:center">Trung bình <em>(Dễ gặp đối tượng sai mục đích)</em></td>
+<td style="text-align:center"><strong>Tuyệt đối</strong> <em>(Ẩn thông tin cá nhân, chỉ mở khi cùng ghép đôi)</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="sec-223-cac-gia-tri-khac-biet-vuot-troi-cua-studymate-unique-value-propositions">2.2.3. Các giá trị khác biệt vượt trội của StudyMate (Unique Value Propositions)</h4>
+<p>Từ kết quả phân tích so sánh, StudyMate khẳng định 4 điểm khác biệt vượt trội giúp giải pháp chiếm lĩnh ưu thế tuyệt đối trong nhóm người dùng sinh viên đại học:</p>
+<ol>
+<li><strong>Môi trường học thuật thuần túy và tin cậy (Academic-First Ecosystem):</strong> Khác với mạng xã hội xô bồ hay app hẹn hò lệch mục đích, StudyMate là không gian học thuật chuẩn mực, nơi 100% người dùng được xác thực tư cách sinh viên và có cùng mục tiêu học tập tiến bộ.</li>
+<li><strong>Thuật toán Matching Matrix chuyên sâu cho đại học Việt Nam:</strong> Tối ưu hóa việc ghép đôi dựa trên ma trận 4 trọng số: Cùng môn học phần (40%), Chung khung giờ rảnh trong tuần (30%), Mục tiêu điểm số (15%) và Phong cách học tương thích (15%).</li>
+<li><strong>Khung kỷ luật chống bùng kèo toàn diện duy nhất (Anti-Ghosting và Accountability):</strong> Lần đầu tiên tích hợp quét mã QR check-in tại quán cafe/thư viện kết hợp thang điểm uy tín Karma Score, loại bỏ triệt để tình trạng bỏ bom, trễ hẹn và nâng cao trách nhiệm cá nhân của sinh viên.</li>
+<li><strong>Trải nghiệm khép kín từ Tìm bạn đến Tổ chức buổi học (End-to-End Study Experience):</strong> Không dừng lại ở việc kết nối, StudyMate cung cấp trọn bộ công cụ đồng hành trong buổi học: đồng hồ Pomodoro đôi đồng bộ thời gian thực qua WebSocket, danh sách mục tiêu chung và phòng học trực tuyến WebRTC.</li>
+</ol>
+<h3 id="sec-23-muc-tieu-va-pham-vi-cua-he-thong">2.3. Mục tiêu và Phạm vi của hệ thống</h3>
+<p>Hệ thống phần mềm <strong>StudyMate</strong> hướng đến mục tiêu tạo ra một môi trường học thuật tin cậy với các năng lực chính:</p>
+<ul>
+<li><strong>Hồ sơ học thuật chuẩn hóa:</strong> Cho phép sinh viên tạo hồ sơ thể hiện rõ trường, khoa, chuyên ngành, các môn học đang quan tâm, mục tiêu học tập (cải thiện GPA, hoàn thành học phần, đạt học bổng, ôn thi chứng chỉ) và phong cách học tập ưa thích.</li>
+<li><strong>Thuật toán gợi ý ghép đôi học tập đa chiều (Matching Matrix):</strong> Tự động gợi ý bạn học hoặc nhóm học tương đồng nhất dựa trên môn học, khung giờ rảnh chung, vị trí địa lý thuận tiện (đối với học trực tiếp) và độ hòa hợp về phong cách.</li>
+<li><strong>Xác thực định danh học thuật:</strong> Bắt buộc kích hoạt tài khoản qua email sinh viên trường (<code>@*.edu.vn</code>, ưu tiên khối ĐHQG-HCM) và tích hợp cơ chế xác thực thẻ sinh viên (Student eKYC / duyệt ảnh thẻ) để cấp &quot;Huy hiệu xác minh sinh viên&quot; (Verified Student Badge).</li>
+<li><strong>Không gian phiên học tương tác (Active Study Session):</strong> Cung cấp các công cụ tiện ích trong buổi học gồm đồng hồ Pomodoro đôi đồng bộ thời gian thực (Realtime Synchronized Pomodoro), danh sách mục tiêu chung của phiên học (Shared Session To-do List), và lịch học tự động đồng bộ.</li>
+<li><strong>Cơ chế kỷ luật và an toàn (Anti-ghosting và Safety Framework):</strong> Quản lý điểm uy tín (Karma / Punctuality Score), cơ chế quét mã QR check-in xác nhận có mặt trực tiếp tại điểm hẹn, chế tài trừ điểm phạt khi hủy hẹn sát giờ hoặc vắng mặt không lý do, cùng hệ thống đánh giá ẩn danh hai chiều (Double-Blind Review) sau mỗi buổi học.</li>
+</ul>
+<h3 id="sec-24-moi-truong-hoat-dong-cua-phan-mem">2.4. Môi trường hoạt động của phần mềm</h3>
+<p>Phần mềm StudyMate được thiết kế hoạt động trên môi trường Web hiện đại, đáp ứng linh hoạt trên nhiều thiết bị:</p>
+<ul>
+<li><strong>Môi trường Client (Người dùng cuối):</strong>
+<ul>
+<li>Hỗ trợ trên các trình duyệt Web máy tính và thiết bị di động phổ biến hiện nay: Google Chrome (bản 100+), Microsoft Edge (bản 100+), Mozilla Firefox (bản 100+), Apple Safari (bản 15+).</li>
+<li>Giao diện Responsive tối ưu hóa cho cả màn hình Desktop/Laptop (độ phân giải từ 1280x720 trở lên) và màn hình điện thoại thông minh/máy tính bảng (iOS, Android).</li>
+<li>Yêu cầu quyền truy cập Camera của trình duyệt để thực hiện tính năng quét mã QR check-in tại buổi hẹn học.</li>
+</ul>
+</li>
+<li><strong>Môi trường Server (Máy chủ triển khai):</strong>
+<ul>
+<li>Hệ điều hành máy chủ: Linux (Ubuntu Server 22.04 LTS hoặc 24.04 LTS).</li>
+<li>Môi trường thực thi (Runtime): Node.js (phiên bản 20.x LTS trở lên) phục vụ RESTful API Server và WebSocket Server.</li>
+<li>Web Server và Reverse Proxy: Nginx làm cổng tiếp nhận HTTPS/WSS, phân tải và nén dữ liệu.</li>
+<li>Hệ quản trị cơ sở dữ liệu: PostgreSQL (phiên bản 15.x trở lên) cho toàn bộ dữ liệu có cấu trúc của hệ thống (người dùng, hồ sơ học thuật, lịch hẹn, phiên học, mã QR check-in tạm thời và điểm uy tín Karma).</li>
+<li>Giao thức truyền thông: HTTPS (bảo mật TLS 1.3) cho toàn bộ API và WSS (Secure WebSocket) cho tính năng đồng bộ thời gian thực.</li>
+</ul>
+</li>
+</ul>
+<h3 id="sec-25-cac-rang-buoc-ve-thiet-ke-va-trien-khai">2.5. Các ràng buộc về thiết kế và triển khai</h3>
+<ul>
+<li><strong>Ngôn ngữ và Nền tảng:</strong> Toàn bộ hệ thống sử dụng ngôn ngữ <strong>TypeScript</strong> nhằm đảm bảo tính chặt chẽ về mặt kiểu dữ liệu (Type Safety) giữa Frontend và Backend.
+<ul>
+<li>Frontend: Next.js (React 18+) kết hợp TailwindCSS và Shadcn/ui.</li>
+<li>Backend: NestJS / Express.js với kiến trúc Module hóa rõ ràng.</li>
+<li>ORM: Prisma ORM nhằm quản lý Schema, quan hệ thực thể và Database Migrations một cách an toàn.</li>
+</ul>
+</li>
+<li><strong>Cơ chế an toàn và Bảo mật thông tin:</strong>
+<ul>
+<li>Xác thực người dùng thông qua cơ chế JWT (JSON Web Tokens: Access Token có hạn sử dụng ngắn kết hợp Refresh Token lưu trữ an toàn trong HttpOnly Cookie).</li>
+<li>Mật khẩu của người dùng được băm một chiều bằng thuật toán <code>bcrypt</code> kết hợp kỹ thuật salting ngẫu nhiên (Salt rounds = 12).</li>
+<li>Toàn bộ dữ liệu nhạy cảm (như ảnh thẻ sinh viên lúc xác thực) được lưu trữ tại thư mục an toàn của máy chủ ứng dụng với cơ chế mã hóa đường dẫn và phân quyền truy cập nội bộ chặt chẽ.</li>
+<li>Thông tin liên lạc cá nhân (Số điện thoại, tài khoản mạng xã hội) mặc định được ẩn; chỉ hiển thị khi hai người dùng đã đồng ý ghép đôi và xác nhận phiên học thành công.</li>
+<li>Tuân thủ các nguyên tắc bảo mật web cốt lõi theo khuyến nghị OWASP Top 10 (chống SQL Injection, XSS, CSRF, kiểm soát tần suất truy vấn - Rate Limiting nhằm ngăn chặn spam request và brute-force).</li>
+</ul>
+</li>
+<li><strong>Chuẩn tài liệu:</strong> Tuân thủ chuẩn tài liệu theo quy định của Bộ môn Công nghệ phần mềm – Khoa CNTT, Trường ĐH Khoa học Tự nhiên TP.HCM (tương thích với chuẩn IEEE 830 ở giai đoạn đặc tả yêu cầu tiếp theo).</li>
+</ul>
+<hr>
+<h1 id="sec-3-giai-phap-de-xuat">3 Giải pháp đề xuất</h1>
+<h2 id="sec-31-phan-mem">3.1 Phần mềm</h2>
+<h3 id="sec-311-danh-sach-cac-chuc-nang-phan-mem">3.1.1. Danh sách các chức năng phần mềm</h3>
+<p>Nhóm sinh viên sử dụng bảng câu chuyện người dùng (User Stories) dưới đây để phân tích sự cần thiết của các chức năng, đồng thời quy định các yêu cầu và quy tắc nghiệp vụ liên quan:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">STT</th>
+<th>Nhu cầu (User Story)</th>
+<th>Yêu cầu chức năng tương ứng</th>
+<th>Quy định và Quy tắc nghiệp vụ liên quan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>I</strong></td>
+<td><strong>PHÂN HỆ QUẢN LÝ TÀI KHOẢN VÀ ĐỊNH DANH SINH VIÊN</strong></td>
+<td><em>(4 câu chuyện người dùng)</em></td>
+<td>Quy định bảo mật và kiểm duyệt học thuật</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td>Là sinh viên, tôi muốn đăng ký tài khoản bằng email trường để đảm bảo kết nối với người học thực thụ.</td>
+<td>Xác thực email sinh viên (<code>@*.edu.vn</code>)</td>
+<td>Hệ thống gửi mã OTP xác thực có hiệu lực trong 10 phút. Chỉ chấp nhận các tên miền email giáo dục được hệ thống cho phép.</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td>Là người dùng, tôi muốn tạo hồ sơ học thuật gồm ngành học, môn học quan tâm, mục tiêu điểm số và phong cách học.</td>
+<td>Quản lý hồ sơ học thuật cá nhân</td>
+<td>Người dùng chọn tối đa 5 môn học ưu tiên trong kỳ; chọn phong cách học (Học yên tĩnh - Silent Study, Thảo luận - Discussion, Lập trình đôi - Pair Programming, Ôn tập trắc nghiệm - Flashcards).</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td>Là sinh viên, tôi muốn xác thực thẻ sinh viên để tài khoản nhận Huy hiệu xác minh sinh viên (Verified Student Badge), giúp gia tăng độ tin cậy khi tìm bạn học.</td>
+<td>Xác thực thẻ sinh viên (Student eKYC)</td>
+<td>Người dùng tải ảnh chụp mặt trước thẻ sinh viên rõ nét. Quản trị viên đối chiếu thông tin trùng khớp với email trường; phê duyệt và cấp huy hiệu xác thực.</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td>Là người dùng, tôi muốn cập nhật khung giờ rảnh trong tuần để hệ thống chỉ gợi ý vào những khoảng thời gian khả dụng.</td>
+<td>Quản lý lịch rảnh cá nhân (Availability Schedule)</td>
+<td>Người dùng đánh dấu các khung giờ rảnh theo lưới lịch 7 ngày trong tuần (Sáng / Chiều / Tối).</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>II</strong></td>
+<td><strong>PHÂN HỆ TÌM KIẾM, KHÁM PHÁ VÀ GHÉP ĐÔI HỌC TẬP</strong></td>
+<td><em>(4 câu chuyện người dùng)</em></td>
+<td>Quy định về quyền riêng tư và tương thích</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td>Là sinh viên, tôi muốn hệ thống tự động gợi ý những bạn học có độ hòa hợp cao nhất với tôi về môn học và thời gian.</td>
+<td>Thuật toán gợi ý ghép đôi (Matching Matrix)</td>
+<td>Điểm tương thích tính theo trọng số: Cùng môn học (40%), Chung khung giờ rảnh (30%), Mục tiêu điểm số (15%), Phong cách học (15%).</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td>Là người dùng, tôi muốn lọc danh sách bạn học theo môn học cụ thể, địa điểm mong muốn (quán cafe, thư viện, online) và giới tính.</td>
+<td>Bộ lọc tìm kiếm đa tiêu chí (Advanced Search và Filters)</td>
+<td>Cho phép lọc kết hợp nhiều điều kiện; kết quả sắp xếp theo điểm hòa hợp giảm dần hoặc điểm uy tín Karma giảm dần.</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td>Là sinh viên, tôi muốn gửi lời mời học tập kèm lời nhắn mục tiêu phiên học đến bạn học tôi thấy phù hợp.</td>
+<td>Gửi và xử lý lời mời học tập (Study Invitation)</td>
+<td>Lời mời có hạn phản hồi trong 24 giờ. Người nhận có thể Chấp nhận hoặc Từ chối lịch sự.</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td>Là nhóm sinh viên, chúng tôi muốn tạo nhóm học tập theo môn để tìm thêm các thành viên còn thiếu cho bài tập lớn.</td>
+<td>Tạo và quản lý Nhóm học tập (Study Group Hub)</td>
+<td>Trưởng nhóm quy định số lượng thành viên tối đa (ví dụ 3-5 bạn), môn học, mô tả đề tài và phê duyệt yêu cầu tham gia nhóm.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>III</strong></td>
+<td><strong>PHÂN HỆ QUẢN LÝ PHIÊN HỌC TẬP VÀ LẬP LỊCH HẸN</strong></td>
+<td><em>(3 câu chuyện người dùng)</em></td>
+<td>Quy chế xác nhận và hủy hẹn hợp lệ</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td>Là người dùng đã ghép đôi, tôi muốn tạo một lịch hẹn học cụ thể với thời gian, địa điểm rõ ràng.</td>
+<td>Lập lịch hẹn phiên học (Session Booking)</td>
+<td>Chọn hình thức: Trực tiếp (Địa điểm quán cafe/thư viện cụ thể trên bản đồ) hoặc Trực tuyến (tự động tạo link phòng học ảo).</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td>Là người tham gia, tôi muốn nhận được thông báo nhắc hẹn trước giờ học để không bị quên lịch.</td>
+<td>Hệ thống thông báo nhắc hẹn tự động</td>
+<td>Tự động gửi thông báo qua Web Push Notification và Email trước giờ bắt đầu phiên học 2 giờ và 30 phút.</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td>Là người có việc đột xuất, tôi muốn hủy lịch hẹn với lý do chính đáng và thời gian thông báo hợp lệ.</td>
+<td>Hủy và thay đổi lịch hẹn</td>
+<td>Nếu hủy trước &gt; 6 giờ: Miễn phạt. Nếu hủy trong khoảng 2–6 giờ: Cảnh cáo nhẹ. Nếu hủy sát giờ &lt; 2 giờ: Trừ điểm uy tín mức nặng.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>IV</strong></td>
+<td><strong>PHÂN HỆ CÔNG CỤ HỖ TRỢ PHIÊN HỌC TƯƠNG TÁC</strong></td>
+<td><em>(3 câu chuyện người dùng)</em></td>
+<td>Tiêu chuẩn đồng bộ thời gian thực WebRTC/WSS</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td>Là hai bạn học cùng nhau, chúng tôi muốn có đồng hồ Pomodoro đôi chạy đồng bộ để cùng tập trung và cùng giải lao.</td>
+<td>Đồng hồ Pomodoro đôi đồng bộ (Realtime Shared Pomodoro)</td>
+<td>Khi một bên nhấn Bắt đầu / Tạm dừng, bên kia đồng bộ tức thời qua WebSocket. Chu kỳ chuẩn 25 phút học / 5 phút nghỉ.</td>
+</tr>
+<tr>
+<td style="text-align:center">13</td>
+<td>Là người học trong phiên, tôi muốn lập danh sách việc cần làm chung trong buổi học để theo dõi tiến độ.</td>
+<td>Danh sách mục tiêu chung của phiên học (Shared Session To-do List)</td>
+<td>Cả hai thành viên đều có thể thêm đầu việc, tích chọn hoàn thành và theo dõi tỷ lệ hoàn thành mục tiêu của buổi học.</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td>Là người học trực tuyến, tôi muốn có phòng học ảo tích hợp bảng trắng và chia sẻ màn hình đơn giản.</td>
+<td>Phòng học ảo trực tuyến (Virtual Study Room)</td>
+<td>Tích hợp giải pháp phòng học trực tuyến (WebRTC / Jitsi Meet); hỗ trợ âm thanh, video và chia sẻ màn hình trong phiên học.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>V</strong></td>
+<td><strong>PHÂN HỆ ĐẢM BẢO CAM KẾT VÀ AN TOÀN (ANTI-GHOSTING VÀ SAFETY)</strong></td>
+<td><em>(4 câu chuyện người dùng)</em></td>
+<td>Quy chế điểm uy tín Karma và chế tài vi phạm</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td>Là thành viên đến điểm hẹn, tôi muốn quét mã QR với bạn học để xác nhận cả hai đều có mặt đúng giờ.</td>
+<td>Quét mã QR Check-in điểm hẹn</td>
+<td>Mã QR động được tạo trên thiết bị của một bên và bên còn lại quét trong vòng 15 phút đầu phiên học để ghi nhận có mặt đúng giờ.</td>
+</tr>
+<tr>
+<td style="text-align:center">16</td>
+<td>Là sinh viên nghiêm túc, tôi muốn có điểm uy tín hiển thị trên hồ sơ để thể hiện mức độ đáng tin cậy của mình.</td>
+<td>Quản lý điểm uy tín (Karma / Punctuality Score)</td>
+<td>Khởi tạo: 100 điểm. Hoàn thành buổi học đúng giờ: +2 điểm. Đến trễ &gt; 15 phút: -5 điểm. Hủy sát giờ (&lt; 2 giờ): -15 điểm. Vắng mặt không lý do (No-show): -30 điểm.</td>
+</tr>
+<tr>
+<td style="text-align:center">17</td>
+<td>Là người học, tôi muốn đánh giá và nhận xét ẩn danh về bạn học sau khi kết thúc buổi hẹn.</td>
+<td>Đánh giá hai chiều ẩn danh (Double-Blind Feedback)</td>
+<td>Điểm số đánh giá (1-5 sao về thái độ, độ tập trung) chỉ được công bố sau khi cả hai bên đã hoàn tất đánh giá hoặc sau 24 giờ.</td>
+</tr>
+<tr>
+<td style="text-align:center">18</td>
+<td>Là người dùng gặp sự cố bị quấy rối hoặc sai mục đích học tập, tôi muốn báo cáo vi phạm và chặn đối tượng này.</td>
+<td>Báo cáo vi phạm (Report) và Chặn người dùng (Block)</td>
+<td>Chặn lập tức cắt đứt mọi liên lạc và không bao giờ gợi ý ghép đôi lại. Báo cáo kèm bằng chứng được chuyển ngay cho Quản trị viên xử lý.</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>VI</strong></td>
+<td><strong>PHÂN HỆ QUẢN TRỊ HỆ THỐNG (ADMIN PORTAL)</strong></td>
+<td><em>(3 câu chuyện người dùng)</em></td>
+<td>Quy trình kiểm duyệt và an toàn dữ liệu</td>
+</tr>
+<tr>
+<td style="text-align:center">19</td>
+<td>Là Quản trị viên, tôi muốn xem xét và duyệt các yêu cầu xác thực thẻ sinh viên một cách nhanh chóng.</td>
+<td>Quản lý và duyệt hồ sơ thẻ sinh viên</td>
+<td>Giao diện cho phép đối chiếu ảnh thẻ với thông tin tài khoản, thực hiện Duyệt hoặc Từ chối kèm lý do phản hồi.</td>
+</tr>
+<tr>
+<td style="text-align:center">20</td>
+<td>Là Quản trị viên, tôi muốn xử lý các báo cáo vi phạm và áp dụng chế tài khóa tài khoản sai phạm.</td>
+<td>Xử lý vi phạm và Quản lý người dùng</td>
+<td>Áp dụng các mức chế tài: Cảnh cáo, Khóa quyền ghép đôi 7 ngày, Khóa vĩnh viễn tài khoản vi phạm nghiêm trọng.</td>
+</tr>
+<tr>
+<td style="text-align:center">21</td>
+<td>Là Quản trị viên, tôi muốn xem các biểu đồ thống kê về số lượng người dùng mới, tỷ lệ ghép đôi thành công và tỷ lệ hoàn thành phiên học.</td>
+<td>Thống kê và Báo cáo tổng quan (Dashboard Analytics)</td>
+<td>Hiển thị biểu đồ trực quan về số phiên học theo ngày/tuần, môn học được quan tâm nhiều nhất, tỷ lệ check-in thành công.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="sec-312-kien-truc-tong-the-phan-mem">3.1.2. Kiến trúc tổng thể phần mềm</h3>
+<p>Hệ thống <strong>StudyMate</strong> được thiết kế theo mô hình <strong>Kiến trúc 3 tầng (3-Tier Architecture)</strong> kết hợp với cơ chế <strong>Event-driven Realtime</strong> qua WebSockets, bảo đảm tính độc lập, khả năng mở rộng linh hoạt và tốc độ phản hồi cao cho người dùng:</p>
+
+    <figure class="diagram-figure" id="diagram-1">
+        <div class="diagram-figure-header">
+            <div class="diagram-header-left">
+                <span class="diagram-figure-badge">HÌNH 3.1</span>
+                <span class="diagram-figure-title">Kiến trúc tổng thể 3 tầng và Phân hệ Realtime</span>
+            </div>
+            <div class="diagram-header-right">
+                <span class="diagram-type-tag">MERMAID DIAGRAM</span>
+            </div>
+        </div>
+        <div class="diagram-figure-canvas">
+            <div class="mermaid-slot" id="mermaid-slot-0"><div class="mermaid-rendered" id="mermaid-rendered-0">
+<svg id="mermaid-1792130163802" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="max-width: 1024.66796875px;" viewBox="-8 -8 1024.66796875 581.003173828125" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1792130163802{font-family:Inter,-apple-system,sans-serif;font-size:14px;fill:#000000;}#mermaid-1792130163802 .error-icon{fill:#552222;}#mermaid-1792130163802 .error-text{fill:#552222;stroke:#552222;}#mermaid-1792130163802 .edge-thickness-normal{stroke-width:2px;}#mermaid-1792130163802 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1792130163802 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1792130163802 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1792130163802 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1792130163802 .marker{fill:#3d7a64;stroke:#3d7a64;}#mermaid-1792130163802 .marker.cross{stroke:#3d7a64;}#mermaid-1792130163802 svg{font-family:Inter,-apple-system,sans-serif;font-size:14px;}#mermaid-1792130163802 .label{font-family:Inter,-apple-system,sans-serif;color:#000000;}#mermaid-1792130163802 .cluster-label text{fill:#333;}#mermaid-1792130163802 .cluster-label span,#mermaid-1792130163802 p{color:#333;}#mermaid-1792130163802 .label text,#mermaid-1792130163802 span,#mermaid-1792130163802 p{fill:#000000;color:#000000;}#mermaid-1792130163802 .node rect,#mermaid-1792130163802 .node circle,#mermaid-1792130163802 .node ellipse,#mermaid-1792130163802 .node polygon,#mermaid-1792130163802 .node path{fill:#eee;stroke:#3d7a64;stroke-width:1px;}#mermaid-1792130163802 .flowchart-label text{text-anchor:middle;}#mermaid-1792130163802 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1792130163802 .node .label{text-align:center;}#mermaid-1792130163802 .node.clickable{cursor:pointer;}#mermaid-1792130163802 .arrowheadPath{fill:#333333;}#mermaid-1792130163802 .edgePath .path{stroke:#3d7a64;stroke-width:2.0px;}#mermaid-1792130163802 .flowchart-link{stroke:#3d7a64;fill:none;}#mermaid-1792130163802 .edgeLabel{background-color:#ffffff;text-align:center;}#mermaid-1792130163802 .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#mermaid-1792130163802 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#mermaid-1792130163802 .cluster rect{fill:#f7fbf8;stroke:#b6ddc9;stroke-width:1px;}#mermaid-1792130163802 .cluster text{fill:#333;}#mermaid-1792130163802 .cluster span,#mermaid-1792130163802 p{color:#333;}#mermaid-1792130163802 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Inter,-apple-system,sans-serif;font-size:12px;background:#ffffff;border:1px solid #707070;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1792130163802 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#mermaid-1792130163802 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1792130163802_flowchart-pointEnd" class="marker flowchart" viewBox="0 0 10 10" refX="6" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163802_flowchart-pointStart" class="marker flowchart" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163802_flowchart-circleEnd" class="marker flowchart" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1792130163802_flowchart-circleStart" class="marker flowchart" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1792130163802_flowchart-crossEnd" class="marker cross flowchart" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163802_flowchart-crossStart" class="marker cross flowchart" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"><g class="cluster default flowchart-label" id="Data"><rect style="" rx="0" ry="0" x="100.41796875" y="396.578125" width="845.421875" height="168.4250259399414"></rect><g class="cluster-label" transform="translate(342.47265625, 396.578125)"><foreignObject width="361.3125" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">TẦNG DỮ LIỆU VÀ LƯU TRỮ (DATA VÀ STORAGE TIER)</span></div></foreignObject></g></g><g class="cluster default flowchart-label" id="Application"><rect style="" rx="0" ry="0" x="0" y="210.1875" width="974.6640625" height="112.59375"></rect><g class="cluster-label" transform="translate(324.16015625, 210.1875)"><foreignObject width="326.34375" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">TẦNG NGHIỆP VỤ (APPLICATION TIER / SERVER)</span></div></foreignObject></g></g><g class="cluster default flowchart-label" id="Presentation"><rect style="" rx="0" ry="0" x="153.26171875" y="0" width="855.40625" height="136.390625"></rect><g class="cluster-label" transform="translate(442.89453125, 0)"><foreignObject width="276.140625" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel">TẦNG TRÌNH DIỄN (PRESENTATION TIER)</span></div></foreignObject></g></g></g><g class="edgePaths"><path d="M810.751,113.944L851.586,136.391L851.586,173.289L851.586,210.188L801.321,232.997" id="L-ClientApp-ApiServer-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-ClientApp LE-ApiServer" style="fill:none;" marker-start="url(#mermaid-1792130163802_flowchart-pointStart)" marker-end="url(#mermaid-1792130163802_flowchart-pointEnd)"></path><path d="M563.865,89.4L201.188,136.391L201.188,173.289L201.188,210.188L201.188,229.888" id="L-ClientApp-RealtimeServer-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-ClientApp LE-RealtimeServer" style="fill:none;" marker-start="url(#mermaid-1792130163802_flowchart-pointStart)" marker-end="url(#mermaid-1792130163802_flowchart-pointEnd)"></path><path d="M431.657,113.729L477.75,136.391L477.75,173.289L477.75,210.188L583.499,234.022" id="L-AdminApp-ApiServer-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-AdminApp LE-ApiServer" style="fill:none;" marker-start="url(#mermaid-1792130163802_flowchart-pointStart)" marker-end="url(#mermaid-1792130163802_flowchart-pointEnd)"></path><path d="M582.67,297.781L466.957,322.781L466.957,359.68L466.957,396.578L427.039,422.137" id="L-ApiServer-DB-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-ApiServer LE-DB" style="fill:none;" marker-end="url(#mermaid-1792130163802_flowchart-pointEnd)"></path><path d="M730.463,297.781L732.809,322.781L732.809,359.68L732.809,396.578L732.809,444.194" id="L-ApiServer-LocalStorage-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-ApiServer LE-LocalStorage" style="fill:none;" marker-end="url(#mermaid-1792130163802_flowchart-pointEnd)"></path><path d="M201.188,297.781L201.188,322.781L201.188,359.68L201.188,396.578L231.529,420.296" id="L-RealtimeServer-DB-0" class="edge-thickness-normal edge-pattern-dotted flowchart-link LS-RealtimeServer LE-DB" style="fill:none;stroke-width:2px;stroke-dasharray:3;" marker-end="url(#mermaid-1792130163802_flowchart-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(851.5859375, 173.2890625)"><g class="label" transform="translate(-56.0078125, -11.8984375)"><foreignObject width="112.015625" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">HTTP / REST API</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(201.1875, 173.2890625)"><g class="label" transform="translate(-60.609375, -11.8984375)"><foreignObject width="121.21875" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">WebSocket (WSS)</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(477.75, 173.2890625)"><g class="label" transform="translate(-56.0078125, -11.8984375)"><foreignObject width="112.015625" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">HTTP / REST API</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(466.95703125, 359.6796875)"><g class="label" transform="translate(-40.78125, -11.8984375)"><foreignObject width="81.5625" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">Prisma ORM</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(732.80859375, 359.6796875)"><g class="label" transform="translate(-60.8515625, -11.8984375)"><foreignObject width="121.703125" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">Lưu trữ tệp cục bộ</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(201.1875, 359.6796875)"><g class="label" transform="translate(-63.4140625, -11.8984375)"><foreignObject width="126.828125" height="23.796875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">Truy vấn phiên học</span></div></foreignObject></g></g></g><g class="nodes"><g class="node default default flowchart-label" id="flowchart-DB-4" data-node="true" data-id="DB" transform="translate(317.45703125, 480.7906379699707)"><path style="" d="M 0,18.610427781860004 a 182.0390625,18.610427781860004 0,0,0 364.078125 0 a 182.0390625,18.610427781860004 0,0,0 -364.078125 0 l 0,81.20417778186001 a 182.0390625,18.610427781860004 0,0,0 364.078125 0 l 0,-81.20417778186001" transform="translate(-182.0390625,-59.21251667279001)"></path><g class="label" style="" transform="translate(-174.5390625, -23.796875)"><rect rx="0" ry="0"></rect><foreignObject width="349.078125" height="47.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>PostgreSQL Database</b><br>Users • Profiles • Sessions • Reviews • QR Check-in</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-LocalStorage-5" data-node="true" data-id="LocalStorage" transform="translate(732.80859375, 480.7906379699707)"><rect class="basic label-container" style="" rx="0" ry="0" x="-178.03125" y="-31.296875" width="356.0625" height="62.59375"></rect><g class="label" style="" transform="translate(-170.53125, -23.796875)"><rect rx="0" ry="0"></rect><foreignObject width="341.0625" height="47.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Local File Storage</b><br>Lưu trữ ảnh thẻ sinh viên eKYC • Avatar người dùng</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-ApiServer-2" data-node="true" data-id="ApiServer" transform="translate(727.52734375, 266.484375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-191.15625" y="-31.296875" width="382.3125" height="62.59375"></rect><g class="label" style="" transform="translate(-183.65625, -23.796875)"><rect rx="0" ry="0"></rect><foreignObject width="367.3125" height="47.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>RESTful API Core Service (Node.js / Express / NestJS)</b><br>Xác thực eKYC • Matching Matrix • Booking và Karma</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-RealtimeServer-3" data-node="true" data-id="RealtimeServer" transform="translate(201.1875, 266.484375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-166.1875" y="-31.296875" width="332.375" height="62.59375"></rect><g class="label" style="" transform="translate(-158.6875, -23.796875)"><rect rx="0" ry="0"></rect><foreignObject width="317.375" height="47.59375"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Realtime Engine (Socket.io)</b><br>Đồng bộ Pomodoro đôi • Cập nhật To-do chung</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-ClientApp-0" data-node="true" data-id="ClientApp" transform="translate(727.52734375, 68.1953125)"><rect class="basic label-container" style="" rx="0" ry="0" x="-158.40625" y="-43.1953125" width="316.8125" height="86.390625"></rect><g class="label" style="" transform="translate(-150.90625, -35.6953125)"><rect rx="0" ry="0"></rect><foreignObject width="301.8125" height="71.390625"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Student Web App</b><br>(Next.js / React 18 / TailwindCSS)<br>Pomodoro • To-do List • Quét mã QR Camera</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-AdminApp-1" data-node="true" data-id="AdminApp" transform="translate(339.04296875, 68.1953125)"><rect class="basic label-container" style="" rx="0" ry="0" x="-150.78125" y="-43.1953125" width="301.5625" height="86.390625"></rect><g class="label" style="" transform="translate(-143.28125, -35.6953125)"><rect rx="0" ry="0"></rect><foreignObject width="286.5625" height="71.390625"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Admin Dashboard</b><br>(Next.js / Shadcn UI)<br>Duyệt thẻ SV • Quản lý vi phạm • Thống kê</span></div></foreignObject></g></g></g></g></g></svg>
+            </div></div>
+        </div>
+        <figcaption class="diagram-figure-caption">
+            Hình 3.1: Mô hình Kiến trúc 3 tầng (Presentation Tier, Application Tier, Data và Storage Tier) kết hợp cơ chế Event-driven Realtime qua WebSockets của nền tảng StudyMate.
+        </figcaption>
+        <details class="diagram-source-toggle">
+            <summary>Xem mã nguồn Mermaid</summary>
+            <pre><code class="language-mermaid">flowchart TD
+    subgraph Presentation["TẦNG TRÌNH DIỄN (PRESENTATION TIER)"]
+        ClientApp["<b>Student Web App</b><br/>(Next.js / React 18 / TailwindCSS)<br/>Pomodoro • To-do List • Quét mã QR Camera"]
+        AdminApp["<b>Admin Dashboard</b><br/>(Next.js / Shadcn UI)<br/>Duyệt thẻ SV • Quản lý vi phạm • Thống kê"]
+    end
+
+    subgraph Application["TẦNG NGHIỆP VỤ (APPLICATION TIER / SERVER)"]
+        ApiServer["<b>RESTful API Core Service (Node.js / Express / NestJS)</b><br/>Xác thực eKYC • Matching Matrix • Booking và Karma"]
+        RealtimeServer["<b>Realtime Engine (Socket.io)</b><br/>Đồng bộ Pomodoro đôi • Cập nhật To-do chung"]
+    end
+
+    subgraph Data["TẦNG DỮ LIỆU VÀ LƯU TRỮ (DATA VÀ STORAGE TIER)"]
+        DB[("<b>PostgreSQL Database</b><br/>Users • Profiles • Sessions • Reviews • QR Check-in")]
+        LocalStorage["<b>Local File Storage</b><br/>Lưu trữ ảnh thẻ sinh viên eKYC • Avatar người dùng"]
+    end
+
+    ClientApp <-->|"HTTP / REST API"| ApiServer
+    ClientApp <-->|"WebSocket (WSS)"| RealtimeServer
+    AdminApp <-->|"HTTP / REST API"| ApiServer
+    ApiServer -->|"Prisma ORM"| DB
+    ApiServer -->|"Lưu trữ tệp cục bộ"| LocalStorage
+    RealtimeServer -.->|"Truy vấn phiên học"| DB</code></pre>
+        </details>
+    </figure>
+    
+<h4 id="sec-mo-ta-chi-tiet-cac-phan-tang">Mô tả chi tiết các phân tầng:</h4>
+<ol>
+<li><strong>Tầng Trình diễn (Presentation Tier):</strong>
+<ul>
+<li>Xây dựng bằng Next.js (React 18), tận dụng Server-Side Rendering (SSR) cho các trang công khai để tối ưu tốc độ và Client-Side Rendering (CSR) cho các trang làm việc nội bộ thời gian thực.</li>
+<li>Giao diện Responsive thích ứng mượt mà giữa máy tính và màn hình điện thoại di động thông qua TailwindCSS.</li>
+<li>Sử dụng thư viện <code>html5-qrcode</code> để truy cập camera thiết bị và xử lý quét mã QR check-in trực tiếp trên trình duyệt mà không cần cài đặt ứng dụng gốc (Native App).</li>
+</ul>
+</li>
+<li><strong>Tầng Nghiệp vụ (Application Tier):</strong>
+<ul>
+<li><strong>RESTful API Service (Node.js / Express / NestJS):</strong> Xử lý toàn bộ logic nghiệp vụ cốt lõi: xác thực tài khoản qua email trường, xét duyệt thẻ sinh viên eKYC, thuật toán tính điểm tương thích Matching Matrix, quản lý lịch hẹn và tính toán cộng/trừ điểm uy tín Karma.</li>
+<li><strong>Realtime Engine (Socket.io Server):</strong> Duy trì kết nối hai chiều ổn định giữa các cặp bạn học trong từng phiên học. Phụ trách đồng bộ từng giây của đồng hồ Pomodoro đôi và truyền nhận thay đổi tức thời của danh sách mục tiêu chung (Shared To-do List).</li>
+</ul>
+</li>
+<li><strong>Tầng Dữ liệu (Data Tier):</strong>
+<ul>
+<li><strong>PostgreSQL Database:</strong> Lưu trữ tập trung toàn bộ dữ liệu có cấu trúc của hệ thống gồm Users, StudentProfiles, Subjects, Sessions, Reviews, KarmaLogs, Reports và các mã QR check-in tạm thời (kiểm tra hạn sử dụng qua trường thời gian <code>expires_at</code>). Tương tác với tầng nghiệp vụ thông qua Prisma ORM đảm bảo an toàn kiểu dữ liệu (Type-safe).</li>
+<li><strong>Lưu trữ Tệp cục bộ (Local File Storage):</strong> Lưu trữ hình ảnh thẻ sinh viên phục vụ xác minh và ảnh đại diện người dùng trực tiếp trên thư mục an toàn của máy chủ ứng dụng, không phụ thuộc dịch vụ lưu trữ đám mây ngoài.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="sec-32-phan-cung">3.2 Phần cứng</h2>
+<p>Để đảm bảo hệ thống phần mềm <strong>StudyMate</strong> vận hành ổn định, tin cậy và đạt hiệu năng tối ưu, các yêu cầu kỹ thuật về phần cứng cho cả môi trường máy chủ và thiết bị người dùng được xác định cụ thể như sau:</p>
+<h3 id="sec-321-yeu-cau-phan-cung-may-chu-server-requirements">3.2.1. Yêu cầu phần cứng Máy chủ (Server Requirements)</h3>
+<p>Phục vụ cho giai đoạn thử nghiệm (Staging) và triển khai vận hành thực tế (Production) trong phạm vi đồ án môn học:</p>
+<table>
+<thead>
+<tr>
+<th>Thành phần phần cứng</th>
+<th>Cấu hình tối thiểu (Minimum)</th>
+<th>Cấu hình khuyến nghị (Recommended)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bộ vi xử lý (CPU)</strong></td>
+<td>2 Cores / 2 vCPUs (x86_64 hoặc ARM64)</td>
+<td>4 Cores / 4 vCPUs tốc độ ≥ 2.5 GHz</td>
+</tr>
+<tr>
+<td><strong>Bộ nhớ trong (RAM)</strong></td>
+<td>4 GB RAM</td>
+<td>8 GB RAM (chạy mượt mà đồng thời Node.js và PostgreSQL)</td>
+</tr>
+<tr>
+<td><strong>Ổ đĩa cứng (Storage)</strong></td>
+<td>40 GB SSD (tối thiểu 10 GB dung lượng trống)</td>
+<td>80 GB SSD chuẩn NVMe tốc độ đọc/ghi cao</td>
+</tr>
+<tr>
+<td><strong>Băng thông mạng (Network)</strong></td>
+<td>100 Mbps đối xứng, có IP tĩnh công khai</td>
+<td>1 Gbps, kết nối băng thông rộng ổn định</td>
+</tr>
+<tr>
+<td><strong>Cơ chế sao lưu (Backup)</strong></td>
+<td>Sao lưu CSDL định kỳ hàng tuần</td>
+<td>Cơ chế xuất tệp sao lưu dữ liệu tự động hàng ngày (pg_dump)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sec-322-yeu-cau-phan-cung-thiet-bi-nguoi-dung-client-requirements">3.2.2. Yêu cầu phần cứng Thiết bị Người dùng (Client Requirements)</h3>
+<p>Hệ thống được thiết kế theo hướng Web App nhẹ nhàng, không đòi hỏi cấu hình máy cao:</p>
+<ul>
+<li><strong>Đối với Người dùng Sinh viên (Học viên):</strong>
+<ul>
+<li>Máy tính cá nhân (PC/Laptop) hoặc Điện thoại thông minh (Smartphone) / Máy tính bảng (Tablet) chạy hệ điều hành Windows, macOS, Linux, iOS (từ bản 14+) hoặc Android (từ bản 9.0+).</li>
+<li>Bộ nhớ RAM: Tối thiểu 2 GB (khuyến nghị 4 GB trở lên) để chạy mượt mà trình duyệt web hiện đại.</li>
+<li>Thiết bị ngoại vi: Có tích hợp Camera (hoặc Webcam) đang hoạt động để thực hiện quét mã QR check-in điểm hẹn; có micro/tai nghe nếu tham gia phòng học ảo trực tuyến.</li>
+<li>Kết nối mạng: Tốc độ tối thiểu 5 Mbps (4G/5G hoặc Wi-Fi).</li>
+</ul>
+</li>
+<li><strong>Đối với Quản trị viên (Admin):</strong>
+<ul>
+<li>Máy tính cá nhân hoặc Laptop với màn hình độ phân giải từ Full HD (1920x1080) trở lên nhằm tối ưu không gian hiển thị của Dashboard thống kê, danh sách duyệt thẻ sinh viên và nhật ký báo cáo vi phạm.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="sec-4-ke-hoach-phat-trien">4 Kế hoạch phát triển</h1>
+<p>Dự án áp dụng mô hình phát triển phần mềm <strong>Lai ghép (Hybrid Agile/Scrum)</strong>: Tuân thủ các cột mốc bàn giao lớn (Milestones PA01 → PA06) theo đúng tiến độ 12 tuần của môn học tại Trường ĐH Khoa học Tự nhiên TP.HCM; đồng thời bên trong nội bộ nhóm chia thành các Sprint ngắn 2 tuần/Sprint để chia nhỏ công việc, họp rà soát tiến độ (Weekly Sync định kỳ vào tối thứ Ba và thứ Bảy) và kiểm thử liên tục.</p>
+<p>Kế hoạch chi tiết và thành phẩm bàn giao cụ thể qua từng giai đoạn như sau:</p>
+
+    <figure class="diagram-figure" id="diagram-2">
+        <div class="diagram-figure-header">
+            <div class="diagram-header-left">
+                <span class="diagram-figure-badge">HÌNH 4.1</span>
+                <span class="diagram-figure-title">Lộ trình phát triển 12 tuần theo mô hình Hybrid Agile</span>
+            </div>
+            <div class="diagram-header-right">
+                <span class="diagram-type-tag">MERMAID DIAGRAM</span>
+            </div>
+        </div>
+        <div class="diagram-figure-canvas">
+            <div class="mermaid-slot" id="mermaid-slot-1"><div class="mermaid-rendered" id="mermaid-rendered-1">
+<svg id="mermaid-1792130163938" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="max-width: 1325.09375px;" viewBox="-8 -8 1325.09375 126.1875" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1792130163938{font-family:Inter,-apple-system,sans-serif;font-size:14px;fill:#000000;}#mermaid-1792130163938 .error-icon{fill:#552222;}#mermaid-1792130163938 .error-text{fill:#552222;stroke:#552222;}#mermaid-1792130163938 .edge-thickness-normal{stroke-width:2px;}#mermaid-1792130163938 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1792130163938 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1792130163938 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1792130163938 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1792130163938 .marker{fill:#3d7a64;stroke:#3d7a64;}#mermaid-1792130163938 .marker.cross{stroke:#3d7a64;}#mermaid-1792130163938 svg{font-family:Inter,-apple-system,sans-serif;font-size:14px;}#mermaid-1792130163938 .label{font-family:Inter,-apple-system,sans-serif;color:#000000;}#mermaid-1792130163938 .cluster-label text{fill:#333;}#mermaid-1792130163938 .cluster-label span,#mermaid-1792130163938 p{color:#333;}#mermaid-1792130163938 .label text,#mermaid-1792130163938 span,#mermaid-1792130163938 p{fill:#000000;color:#000000;}#mermaid-1792130163938 .node rect,#mermaid-1792130163938 .node circle,#mermaid-1792130163938 .node ellipse,#mermaid-1792130163938 .node polygon,#mermaid-1792130163938 .node path{fill:#eee;stroke:#3d7a64;stroke-width:1px;}#mermaid-1792130163938 .flowchart-label text{text-anchor:middle;}#mermaid-1792130163938 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1792130163938 .node .label{text-align:center;}#mermaid-1792130163938 .node.clickable{cursor:pointer;}#mermaid-1792130163938 .arrowheadPath{fill:#333333;}#mermaid-1792130163938 .edgePath .path{stroke:#3d7a64;stroke-width:2.0px;}#mermaid-1792130163938 .flowchart-link{stroke:#3d7a64;fill:none;}#mermaid-1792130163938 .edgeLabel{background-color:#ffffff;text-align:center;}#mermaid-1792130163938 .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#mermaid-1792130163938 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#mermaid-1792130163938 .cluster rect{fill:#f7fbf8;stroke:#b6ddc9;stroke-width:1px;}#mermaid-1792130163938 .cluster text{fill:#333;}#mermaid-1792130163938 .cluster span,#mermaid-1792130163938 p{color:#333;}#mermaid-1792130163938 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Inter,-apple-system,sans-serif;font-size:12px;background:#ffffff;border:1px solid #707070;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1792130163938 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#mermaid-1792130163938 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1792130163938_flowchart-pointEnd" class="marker flowchart" viewBox="0 0 10 10" refX="6" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163938_flowchart-pointStart" class="marker flowchart" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163938_flowchart-circleEnd" class="marker flowchart" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1792130163938_flowchart-circleStart" class="marker flowchart" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1792130163938_flowchart-crossEnd" class="marker cross flowchart" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163938_flowchart-crossStart" class="marker cross flowchart" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M218.828,55.094L243.828,55.094L263.528,55.094" id="L-P1-P2-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-P1 LE-P2" style="fill:none;" marker-end="url(#mermaid-1792130163938_flowchart-pointEnd)"></path><path d="M533.344,55.094L558.344,55.094L578.044,55.094" id="L-P2-P3-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-P2 LE-P3" style="fill:none;" marker-end="url(#mermaid-1792130163938_flowchart-pointEnd)"></path><path d="M787.656,55.094L812.656,55.094L832.356,55.094" id="L-P3-P4-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-P3 LE-P4" style="fill:none;" marker-end="url(#mermaid-1792130163938_flowchart-pointEnd)"></path><path d="M1052.219,55.094L1077.219,55.094L1096.919,55.094" id="L-P4-P5-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-P4 LE-P5" style="fill:none;" marker-end="url(#mermaid-1792130163938_flowchart-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default default flowchart-label" id="flowchart-P1-21" data-node="true" data-id="P1" transform="translate(109.4140625, 55.09375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-109.4140625" y="-55.09375" width="218.828125" height="110.1875"></rect><g class="label" style="" transform="translate(-101.9140625, -47.59375)"><rect rx="0" ry="0"></rect><foreignObject width="203.828125" height="95.1875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Tuần 01 - 03</b><br>PHÂN TÍCH YÊU CẦU<br>Proposal (PA01) và SRS (PA02)<br>Sơ đồ Use Case</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-P2-22" data-node="true" data-id="P2" transform="translate(401.0859375, 55.09375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-132.2578125" y="-55.09375" width="264.515625" height="110.1875"></rect><g class="label" style="" transform="translate(-124.7578125, -47.59375)"><rect rx="0" ry="0"></rect><foreignObject width="249.515625" height="95.1875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Tuần 04 - 06</b><br>THIẾT KẾ PHẦN MỀM<br>CSDL ERD (PA03) và Figma UI (PA04)<br>Sequence Diagrams và SDD</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-P3-24" data-node="true" data-id="P3" transform="translate(685.5, 55.09375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-102.15625" y="-55.09375" width="204.3125" height="110.1875"></rect><g class="label" style="" transform="translate(-94.65625, -47.59375)"><rect rx="0" ry="0"></rect><foreignObject width="189.3125" height="95.1875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Tuần 07 - 09</b><br>CÀI ĐẶT VÀ LẬP TRÌNH<br>Frontend, Backend, Realtime<br>Bản chạy thử MVP (PA05)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-P4-26" data-node="true" data-id="P4" transform="translate(944.9375, 55.09375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-107.28125" y="-55.09375" width="214.5625" height="110.1875"></rect><g class="label" style="" transform="translate(-99.78125, -47.59375)"><rect rx="0" ry="0"></rect><foreignObject width="199.5625" height="95.1875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Tuần 10 - 11</b><br>KIỂM THỬ QA/QC<br>Unit, Integration, E2E<br>Test Report (Coverage ≥ 75%)</span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-P5-28" data-node="true" data-id="P5" transform="translate(1205.65625, 55.09375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-103.4375" y="-55.09375" width="206.875" height="110.1875"></rect><g class="label" style="" transform="translate(-95.9375, -47.59375)"><rect rx="0" ry="0"></rect><foreignObject width="191.875" height="95.1875"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>Tuần 12</b><br>TRIỂN KHAI VÀ BÁO CÁO<br>Production Live, Video Demo<br>Báo cáo tổng kết (PA06)</span></div></foreignObject></g></g></g></g></g></svg>
+            </div></div>
+        </div>
+        <figcaption class="diagram-figure-caption">
+            Hình 4.1: Sơ đồ 5 giai đoạn phát triển phần mềm trong 12 tuần, gắn liền với các cột mốc kiểm soát chất lượng từ PA01 đến PA06.
+        </figcaption>
+        <details class="diagram-source-toggle">
+            <summary>Xem mã nguồn Mermaid</summary>
+            <pre><code class="language-mermaid">flowchart LR
+    P1["<b>Tuần 01 - 03</b><br/>PHÂN TÍCH YÊU CẦU<br/>Proposal (PA01) và SRS (PA02)<br/>Sơ đồ Use Case"] --> P2["<b>Tuần 04 - 06</b><br/>THIẾT KẾ PHẦN MỀM<br/>CSDL ERD (PA03) và Figma UI (PA04)<br/>Sequence Diagrams và SDD"]
+    P2 --> P3["<b>Tuần 07 - 09</b><br/>CÀI ĐẶT VÀ LẬP TRÌNH<br/>Frontend, Backend, Realtime<br/>Bản chạy thử MVP (PA05)"]
+    P3 --> P4["<b>Tuần 10 - 11</b><br/>KIỂM THỬ QA/QC<br/>Unit, Integration, E2E<br/>Test Report (Coverage ≥ 75%)"]
+    P4 --> P5["<b>Tuần 12</b><br/>TRIỂN KHAI VÀ BÁO CÁO<br/>Production Live, Video Demo<br/>Báo cáo tổng kết (PA06)"]</code></pre>
+        </details>
+    </figure>
+    
+<h3 id="sec-41-phan-tich-yeu-cau-tuan-1-tuan-3">4.1 Phân tích yêu cầu (Tuần 1 – Tuần 3)</h3>
+<ul>
+<li><strong>Nội dung thực hiện:</strong>
+<ul>
+<li>Thu thập và khảo sát nhu cầu thực tế của sinh viên về việc tìm bạn học và tình trạng hủy hẹn sát giờ hoặc vắng mặt không lý do trong học tập.</li>
+<li>Hoàn thành tài liệu Đề xuất Đồ án (<strong>Project Proposal – PA01</strong>).</li>
+<li>Chi tiết hóa các câu chuyện người dùng, xây dựng danh mục chức năng đầy đủ và yêu cầu phi chức năng.</li>
+<li>Xây dựng tài liệu Đặc tả Yêu cầu Phần mềm (<strong>Software Requirements Specification - SRS, PA02</strong>) theo chuẩn.</li>
+<li>Vẽ biểu đồ Use Case tổng quát và viết kịch bản chi tiết (Use Case Specifications) cho các ca sử dụng chính: Ghép đôi bạn học, Đặt lịch hẹn phiên học, Quét mã QR check-in, Đánh giá và tính điểm uy tín Karma.</li>
+</ul>
+</li>
+<li><strong>Thành phẩm cụ thể:</strong>
+<ul>
+<li>File tài liệu <code>ProjectProposal.docx</code> và <code>ProjectProposal.pdf</code>.</li>
+<li>Tài liệu <code>SRS.docx</code> kèm sơ đồ Use Case và bảng mô tả đặc tả chi tiết.</li>
+</ul>
+</li>
+</ul>
+<h3 id="sec-42-thiet-ke-phan-mem-tuan-4-tuan-6">4.2 Thiết kế phần mềm (Tuần 4 – Tuần 6)</h3>
+<ul>
+<li><strong>Nội dung thực hiện:</strong>
+<ul>
+<li>Thiết kế Kiến trúc phần mềm chi tiết (Software Architecture Document - SAD): Mô hình đa tầng, các dịch vụ thành phần, giao thức kết nối.</li>
+<li>Thiết kế Cơ sở dữ liệu: Vẽ sơ đồ quan hệ thực thể (ERD), chuẩn hóa dữ liệu đạt chuẩn 3NF, thiết kế chi tiết bảng CSDL (Physical Schema) trong PostgreSQL (<strong>PA03</strong>).</li>
+<li>Thiết kế Giao diện người dùng: Dựng khung sườn giao diện (Wireframe), xây dựng bản mẫu tương tác độ trung thực cao (High-fidelity Interactive UI/UX Prototype) trên Figma cho toàn bộ các màn hình Client và Admin (<strong>PA04</strong>).</li>
+<li>Thiết kế hành vi hệ thống: Vẽ sơ đồ tuần tự (Sequence Diagram) cho các luồng nghiệp vụ phức tạp (luồng Check-in bằng mã QR, luồng đồng bộ Pomodoro đôi thời gian thực, luồng xử lý trừ điểm khi vắng mặt không lý do).</li>
+</ul>
+</li>
+<li><strong>Thành phẩm cụ thể:</strong>
+<ul>
+<li>File thiết kế CSDL (File SQL script migration, sơ đồ ERD sắc nét).</li>
+<li>Đường dẫn Figma Prototype đầy đủ màn hình và Design System chuẩn màu sắc / typography.</li>
+<li>Tài liệu Thiết kế phần mềm (Software Design Document - SDD).</li>
+</ul>
+</li>
+</ul>
+<h3 id="sec-43-cai-dat-implement-phan-mem-tuan-7-tuan-9">4.3 Cài đặt (implement) phần mềm (Tuần 7 – Tuần 9)</h3>
+<ul>
+<li><strong>Nội dung thực hiện:</strong>
+<ul>
+<li>Khởi tạo Repository trên GitHub, cấu hình quy chuẩn Git Flow (nhánh <code>main</code>, <code>develop</code>, các nhánh tính năng <code>feature/*</code>), thiết lập công cụ phân tích mã tĩnh (ESLint, Prettier) và CI pipeline cơ bản (GitHub Actions).</li>
+<li>Xây dựng tầng Cơ sở dữ liệu: Định nghĩa Prisma Schema, khởi chạy migrations tạo cấu trúc bảng trên PostgreSQL, nạp dữ liệu mẫu ban đầu (Seed data: danh mục trường, khoa, môn học phổ biến).</li>
+<li>Xây dựng tầng Backend API: Lập trình các Controller, Service xử lý logic xác thực JWT, gửi OTP email trường, API Matching Matrix, API Booking và Session Management, và xử lý nghiệp vụ Karma.</li>
+<li>Xây dựng phân hệ Realtime: Thiết lập Socket.io Server đồng bộ Pomodoro đôi và Shared To-do List theo Room ID của từng phiên học.</li>
+<li>Xây dựng tầng Frontend: Lập trình các trang giao diện bằng Next.js theo thiết kế Figma, kết nối API Backend, hoàn thiện chức năng quét mã QR bằng camera trình duyệt.</li>
+<li>Hoàn thiện phân hệ Admin Portal quản lý và duyệt hồ sơ thẻ sinh viên.</li>
+</ul>
+</li>
+<li><strong>Thành phẩm cụ thể:</strong>
+<ul>
+<li>Mã nguồn hoàn chỉnh trên GitHub với lịch sử Commit rõ ràng, tuân thủ quy trình Pull Request Review.</li>
+<li>Phiên bản ứng dụng hoạt động thực nghiệm đầu tiên (<strong>Working Prototype / MVP – PA05</strong>).</li>
+</ul>
+</li>
+</ul>
+<h3 id="sec-44-kiem-thu-phan-mem-tuan-10-tuan-11">4.4 Kiểm thử phần mềm (Tuần 10 – Tuần 11)</h3>
+<ul>
+<li><strong>Nội dung thực hiện:</strong>
+<ul>
+<li>Xây dựng Kế hoạch Kiểm thử (Test Plan) chi tiết, xác định các cấp độ kiểm thử và tiêu chí nghiệm thu (Acceptance Criteria).</li>
+<li>Viết và thực thi Unit Test cho các hàm nghiệp vụ trọng tâm (thuật toán tính điểm tương thích, logic trừ điểm khi vi phạm lịch hẹn, luật kiểm tra phát hiện xung đột lịch học) sử dụng Jest.</li>
+<li>Viết Integration Test cho toàn bộ các Endpoint của RESTful API bằng Supertest.</li>
+<li>Xây dựng kịch bản kiểm thử tự động đầu cuối (End-to-End Testing - E2E) bằng Playwright cho các luồng then chốt: Đăng ký → Ghép đôi → Đặt lịch → Quét QR check-in.</li>
+<li>Thực hiện kiểm thử thủ công (Manual Testing) về độ tương thích giao diện trên nhiều kích thước màn hình thiết bị (Responsive Testing) và kiểm thử chấp nhận người dùng (User Acceptance Testing - UAT).</li>
+<li>Rà soát lỗ hổng bảo mật cơ bản theo OWASP Top 10 (SQL Injection, Token Tampering, Rate limit bypass).</li>
+<li>Ghi nhận và khắc phục triệt để các lỗi phát sinh (Bug fixing).</li>
+</ul>
+</li>
+<li><strong>Thành phẩm cụ thể:</strong>
+<ul>
+<li>Tài liệu Kế hoạch và Báo cáo kết quả kiểm thử (Test Report) kèm số liệu độ bao phủ kiểm thử (Code Coverage ≥ 75%).</li>
+<li>Bộ kiểm thử tự động (Automated Test Suite) tích hợp chạy thành công trên GitHub Actions.</li>
+</ul>
+</li>
+</ul>
+<h3 id="sec-45-trien-khai-bao-tri-tuan-12">4.5 Triển khai, bảo trì (Tuần 12)</h3>
+<ul>
+<li><strong>Nội dung thực hiện:</strong>
+<ul>
+<li>Đóng gói phần mềm, cài đặt và cấu hình hoàn chỉnh hệ thống trên máy chủ thử nghiệm (Local Test Server) phục vụ buổi báo cáo nghiệm thu đồ án.</li>
+<li>Tiến hành thử nghiệm diện hẹp (Pilot Testing) với 20–30 sinh viên trong trường để thu thập phản hồi thực tế và tinh chỉnh.</li>
+<li>Soạn thảo tài liệu hướng dẫn người dùng (User Manual) và tài liệu hướng dẫn cài đặt, vận hành dành cho Quản trị viên (Admin và Installation Guide).</li>
+<li>Chuẩn bị Slide thuyết trình báo cáo, quay video clip demo kịch bản sản phẩm và hoàn tất tài liệu tổng kết đồ án (<strong>PA06</strong>).</li>
+</ul>
+</li>
+<li><strong>Thành phẩm cụ thể:</strong>
+<ul>
+<li>Bản cài đặt và mã nguồn hệ thống hoạt động ổn định trên máy chủ thử nghiệm.</li>
+<li>Slide báo cáo bảo vệ đồ án và Video demo tính năng hoàn chỉnh.</li>
+<li>Bộ tài liệu hướng dẫn sử dụng và báo cáo tổng kết đồ án.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="sec-5-ke-hoach-nhan-su-va-chi-phi">5 Kế hoạch nhân sự và chi phí</h1>
+<h2 id="sec-51-co-cau-to-chuc-va-phan-cong-vai-tro">5.1 Cơ cấu tổ chức và Phân công vai trò</h2>
+<p>Nhóm phát triển dự án bao gồm 4 thành viên với sự phân công vai trò rõ ràng, chuyên môn hóa theo quy trình công nghệ phần mềm hiện đại nhưng luôn hỗ trợ chéo lẫn nhau:</p>
+
+    <figure class="diagram-figure" id="diagram-3">
+        <div class="diagram-figure-header">
+            <div class="diagram-header-left">
+                <span class="diagram-figure-badge">HÌNH 5.1</span>
+                <span class="diagram-figure-title">Cơ cấu tổ chức và Phân công trách nhiệm nhóm phát triển</span>
+            </div>
+            <div class="diagram-header-right">
+                <span class="diagram-type-tag">MERMAID DIAGRAM</span>
+            </div>
+        </div>
+        <div class="diagram-figure-canvas">
+            <div class="mermaid-slot" id="mermaid-slot-2"><div class="mermaid-rendered" id="mermaid-rendered-2">
+<svg id="mermaid-1792130163967" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="max-width: 1407.328125px;" viewBox="-8 -8 1407.328125 238.78125" role="graphics-document document" aria-roledescription="flowchart-v2"><style>#mermaid-1792130163967{font-family:Inter,-apple-system,sans-serif;font-size:14px;fill:#000000;}#mermaid-1792130163967 .error-icon{fill:#552222;}#mermaid-1792130163967 .error-text{fill:#552222;stroke:#552222;}#mermaid-1792130163967 .edge-thickness-normal{stroke-width:2px;}#mermaid-1792130163967 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-1792130163967 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-1792130163967 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-1792130163967 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-1792130163967 .marker{fill:#3d7a64;stroke:#3d7a64;}#mermaid-1792130163967 .marker.cross{stroke:#3d7a64;}#mermaid-1792130163967 svg{font-family:Inter,-apple-system,sans-serif;font-size:14px;}#mermaid-1792130163967 .label{font-family:Inter,-apple-system,sans-serif;color:#000000;}#mermaid-1792130163967 .cluster-label text{fill:#333;}#mermaid-1792130163967 .cluster-label span,#mermaid-1792130163967 p{color:#333;}#mermaid-1792130163967 .label text,#mermaid-1792130163967 span,#mermaid-1792130163967 p{fill:#000000;color:#000000;}#mermaid-1792130163967 .node rect,#mermaid-1792130163967 .node circle,#mermaid-1792130163967 .node ellipse,#mermaid-1792130163967 .node polygon,#mermaid-1792130163967 .node path{fill:#eee;stroke:#3d7a64;stroke-width:1px;}#mermaid-1792130163967 .flowchart-label text{text-anchor:middle;}#mermaid-1792130163967 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-1792130163967 .node .label{text-align:center;}#mermaid-1792130163967 .node.clickable{cursor:pointer;}#mermaid-1792130163967 .arrowheadPath{fill:#333333;}#mermaid-1792130163967 .edgePath .path{stroke:#3d7a64;stroke-width:2.0px;}#mermaid-1792130163967 .flowchart-link{stroke:#3d7a64;fill:none;}#mermaid-1792130163967 .edgeLabel{background-color:#ffffff;text-align:center;}#mermaid-1792130163967 .edgeLabel rect{opacity:0.5;background-color:#ffffff;fill:#ffffff;}#mermaid-1792130163967 .labelBkg{background-color:rgba(255, 255, 255, 0.5);}#mermaid-1792130163967 .cluster rect{fill:#f7fbf8;stroke:#b6ddc9;stroke-width:1px;}#mermaid-1792130163967 .cluster text{fill:#333;}#mermaid-1792130163967 .cluster span,#mermaid-1792130163967 p{color:#333;}#mermaid-1792130163967 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:Inter,-apple-system,sans-serif;font-size:12px;background:#ffffff;border:1px solid #707070;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-1792130163967 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#000000;}#mermaid-1792130163967 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style><g><marker id="mermaid-1792130163967_flowchart-pointEnd" class="marker flowchart" viewBox="0 0 10 10" refX="6" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163967_flowchart-pointStart" class="marker flowchart" viewBox="0 0 10 10" refX="4.5" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto"><path d="M 0 5 L 10 10 L 10 0 z" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163967_flowchart-circleEnd" class="marker flowchart" viewBox="0 0 10 10" refX="11" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1792130163967_flowchart-circleStart" class="marker flowchart" viewBox="0 0 10 10" refX="-1" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><circle cx="5" cy="5" r="5" class="arrowMarkerPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></circle></marker><marker id="mermaid-1792130163967_flowchart-crossEnd" class="marker cross flowchart" viewBox="0 0 11 11" refX="12" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><marker id="mermaid-1792130163967_flowchart-crossStart" class="marker cross flowchart" viewBox="0 0 11 11" refX="-1" refY="5.2" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M 1,1 l 9,9 M 10,1 l -9,9" class="arrowMarkerPath" style="stroke-width: 2; stroke-dasharray: 1, 0;"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path d="M491.789,72.056L212.359,111.391L212.359,131.091" id="L-PM-FE-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-PM LE-FE" style="fill:none;" marker-end="url(#mermaid-1792130163967_flowchart-pointEnd)"></path><path d="M696.813,86.391L696.813,111.391L696.813,131.091" id="L-PM-BA-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-PM LE-BA" style="fill:none;" marker-end="url(#mermaid-1792130163967_flowchart-pointEnd)"></path><path d="M901.836,72.125L1180.117,111.391L1180.117,131.091" id="L-PM-QA-0" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-PM LE-QA" style="fill:none;" marker-end="url(#mermaid-1792130163967_flowchart-pointEnd)"></path></g><g class="edgeLabels"><g class="edgeLabel"><g class="label" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g><g class="edgeLabel"><g class="label" transform="translate(0, 0)"><foreignObject width="0" height="0"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel"></span></div></foreignObject></g></g></g><g class="nodes"><g class="node default default flowchart-label" id="flowchart-PM-29" data-node="true" data-id="PM" transform="translate(696.8125, 43.1953125)"><rect class="basic label-container" style="" rx="0" ry="0" x="-205.0234375" y="-43.1953125" width="410.046875" height="86.390625"></rect><g class="label" style="" transform="translate(-197.5234375, -35.6953125)"><rect rx="0" ry="0"></rect><foreignObject width="395.046875" height="71.390625"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>TRƯỞNG NHÓM (PROJECT MANAGER) VÀ TECH LEAD</b><br>Dương Hoài Đức (24120040)<br><i>Điều phối tổng thể, Kiến trúc 3-Tier, Backend Core, Bảo mật</i></span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-FE-30" data-node="true" data-id="FE" transform="translate(212.359375, 179.5859375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-212.359375" y="-43.1953125" width="424.71875" height="86.390625"></rect><g class="label" style="" transform="translate(-204.859375, -35.6953125)"><rect rx="0" ry="0"></rect><foreignObject width="409.71875" height="71.390625"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>FRONTEND LEAD VÀ FULL-STACK DEVELOPER</b><br>Nguyễn Ngọc Phúc (24120215)<br><i>Kiến trúc Web App Next.js, Tích hợp API Full-stack, Hiệu năng</i></span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-BA-31" data-node="true" data-id="BA" transform="translate(696.8125, 179.5859375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-222.09375" y="-43.1953125" width="444.1875" height="86.390625"></rect><g class="label" style="" transform="translate(-214.59375, -35.6953125)"><rect rx="0" ry="0"></rect><foreignObject width="429.1875" height="71.390625"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>BA LEAD VÀ BACKEND DEVELOPER</b><br>Trần Nguyên Tân (24120438)<br><i>Đặc tả yêu cầu SRS, Thiết kế CSDL PostgreSQL, Matching Matrix</i></span></div></foreignObject></g></g><g class="node default default flowchart-label" id="flowchart-QA-32" data-node="true" data-id="QA" transform="translate(1180.1171875, 179.5859375)"><rect class="basic label-container" style="" rx="0" ry="0" x="-211.2109375" y="-43.1953125" width="422.421875" height="86.390625"></rect><g class="label" style="" transform="translate(-203.7109375, -35.6953125)"><rect rx="0" ry="0"></rect><foreignObject width="407.421875" height="71.390625"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="nodeLabel"><b>QA/QC LEAD VÀ REALTIME DEVELOPER</b><br>Trần Công Quang (24120221)<br><i>Test Plan, E2E Testing Playwright, Phân hệ Realtime Socket.io</i></span></div></foreignObject></g></g></g></g></g></svg>
+            </div></div>
+        </div>
+        <figcaption class="diagram-figure-caption">
+            Hình 5.1: Sơ đồ phân định vai trò chuyên môn của 4 thành viên trong dự án StudyMate dưới sự điều phối của Trưởng nhóm (PM).
+        </figcaption>
+        <details class="diagram-source-toggle">
+            <summary>Xem mã nguồn Mermaid</summary>
+            <pre><code class="language-mermaid">flowchart TD
+    PM["<b>TRƯỞNG NHÓM (PROJECT MANAGER) VÀ TECH LEAD</b><br/>Dương Hoài Đức (24120040)<br/><i>Điều phối tổng thể, Kiến trúc 3-Tier, Backend Core, Bảo mật</i>"]
+    
+    FE["<b>FRONTEND LEAD VÀ FULL-STACK DEVELOPER</b><br/>Nguyễn Ngọc Phúc (24120215)<br/><i>Kiến trúc Web App Next.js, Tích hợp API Full-stack, Hiệu năng</i>"]
+    
+    BA["<b>BA LEAD VÀ BACKEND DEVELOPER</b><br/>Trần Nguyên Tân (24120438)<br/><i>Đặc tả yêu cầu SRS, Thiết kế CSDL PostgreSQL, Matching Matrix</i>"]
+    
+    QA["<b>QA/QC LEAD VÀ REALTIME DEVELOPER</b><br/>Trần Công Quang (24120221)<br/><i>Test Plan, E2E Testing Playwright, Phân hệ Realtime Socket.io</i>"]
+
+    PM --> FE
+    PM --> BA
+    PM --> QA</code></pre>
+        </details>
+    </figure>
+    
+<ul>
+<li><strong>1. Dương Hoài Đức (MSSV: 24120040) – Trưởng nhóm (Project Manager) và Tech Lead / Backend Architect:</strong>
+<ul>
+<li><em>Trách nhiệm chính:</em> Điều phối tiến độ tổng thể, phân bổ nhiệm vụ trên GitHub Projects, tổ chức các buổi họp định kỳ; thiết kế kiến trúc tổng thể hệ thống (3-Tier Architecture); thiết lập môi trường phát triển chung, CI/CD Pipeline và quy chuẩn mã nguồn.</li>
+<li><em>Tham gia kỹ thuật:</em> Phụ trách phần hạ tầng Backend Core, phân quyền RBAC, xác thực JWT và cấu hình bảo mật.</li>
+</ul>
+</li>
+<li><strong>2. Nguyễn Ngọc Phúc (MSSV: 24120215) – Frontend Lead và Full-stack Developer:</strong>
+<ul>
+<li><em>Trách nhiệm chính:</em> Chủ trì xây dựng kiến trúc phân hệ Frontend Web App trên nền tảng Next.js (React 18+) và TypeScript; chuẩn hóa cấu trúc thành phần giao diện với TailwindCSS; quản trị trạng thái ứng dụng Client-side và điều phối tích hợp mã nguồn giao diện.</li>
+<li><em>Tham gia kỹ thuật:</em> Lập trình phát triển các tính năng Full-stack (kết nối Client với Node.js/Express API); tích hợp thư viện html5-qrcode quét mã QR Camera; tối ưu hóa tốc độ tải trang, trải nghiệm tương tác (Core Web Vitals) và tính tương thích Responsive trên thiết bị di động.</li>
+</ul>
+</li>
+<li><strong>3. Trần Nguyên Tân (MSSV: 24120438) – Business Analyst (BA Lead) và Backend Developer:</strong>
+<ul>
+<li><em>Trách nhiệm chính:</em> Làm rõ yêu cầu nghiệp vụ, soạn thảo tài liệu Proposal (PA01) và tài liệu SRS (PA02); đặc tả chi tiết các Use Case; thiết kế Schema cơ sở dữ liệu quan hệ (PostgreSQL / Prisma).</li>
+<li><em>Tham gia kỹ thuật:</em> Lập trình các API nghiệp vụ chính (Thuật toán Matching Matrix, dịch vụ Lập lịch hẹn Session Booking, xử lý logic tính điểm uy tín Karma).</li>
+</ul>
+</li>
+<li><strong>4. Trần Công Quang (MSSV: 24120221) – QA/QC Lead và Realtime Specialist:</strong>
+<ul>
+<li><em>Trách nhiệm chính:</em> Lập kế hoạch kiểm thử (Test Plan); thiết lập hệ thống kiểm thử tự động (Unit Test Jest, E2E Playwright); kiểm soát chất lượng mã nguồn và rà soát bug trước mỗi đợt nộp bài.</li>
+<li><em>Tham gia kỹ thuật:</em> Lập trình phân hệ Realtime Socket.io (đồng bộ đồng hồ Pomodoro đôi, Shared To-do List) và lập trình chức năng Camera quét mã QR check-in xác nhận có mặt tại điểm hẹn.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="sec-52-du-toan-chi-phi-thuc-hien">5.2 Dự toán chi phí thực hiện</h2>
+<p>Dự án StudyMate định hướng sử dụng hoàn toàn các công nghệ phần mềm mã nguồn mở (Node.js, PostgreSQL, Next.js, Socket.io) và tận dụng môi trường máy tính sẵn có của các thành viên trong nhóm nhằm tiết kiệm tối đa ngân sách. Toàn bộ các công cụ phục vụ phát triển đều hoàn toàn miễn phí dành cho sinh viên.</p>
+<p>Dưới đây là bảng dự toán chi phí chi tiết cho vòng đời phát triển dự án (ước tính cho 3 tháng thử nghiệm và vận hành đồ án):</p>
+<h3 id="sec-bang-du-toan-chi-phi-thuc-te-dich-vu-va-cong-cu">Bảng dự toán chi phí thực tế (Dịch vụ và Công cụ):</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">STT</th>
+<th>Hạng mục chi phí</th>
+<th>Đơn vị cung cấp</th>
+<th>Mô tả chi tiết và Gói dịch vụ</th>
+<th style="text-align:center">Chi phí dự kiến (VNĐ)</th>
+<th>Ghi chú tài trợ / Tối ưu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td><strong>Hệ quản trị CSDL</strong></td>
+<td>PostgreSQL</td>
+<td>CSDL quan hệ mã nguồn mở cài đặt cục bộ trên máy chủ phát triển</td>
+<td style="text-align:center">0</td>
+<td>Phần mềm mã nguồn mở miễn phí</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td><strong>Môi trường thực thi và API</strong></td>
+<td>Node.js / Express</td>
+<td>Nền tảng thực thi JavaScript mã nguồn mở cho Backend API và Realtime</td>
+<td style="text-align:center">0</td>
+<td>Phần mềm mã nguồn mở miễn phí</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td><strong>Giao diện và Ứng dụng Web</strong></td>
+<td>Next.js / React</td>
+<td>Framework Frontend mã nguồn mở</td>
+<td style="text-align:center">0</td>
+<td>Phần mềm mã nguồn mở miễn phí</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td><strong>Lưu trữ tệp đa phương tiện</strong></td>
+<td>Local File Storage</td>
+<td>Lưu trữ ảnh thẻ sinh viên eKYC và avatar trực tiếp trên ổ cứng máy chủ</td>
+<td style="text-align:center">0</td>
+<td>Tận dụng dung lượng đĩa cứng máy chủ</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td><strong>Dịch vụ Email sinh viên</strong></td>
+<td>Giao thức SMTP trường</td>
+<td>Gửi OTP kích hoạt tài khoản và email thông báo qua cổng SMTP</td>
+<td style="text-align:center">0</td>
+<td>Miễn phí qua giao thức SMTP chuẩn</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td><strong>Công cụ Thiết kế và Quản lý dự án</strong></td>
+<td>Figma và GitHub</td>
+<td>Figma Professional và GitHub Team Projects</td>
+<td style="text-align:center">0</td>
+<td>Tài trợ miễn phí 100% theo chương trình GitHub Education</td>
+</tr>
+<tr>
+<td style="text-align:center">7</td>
+<td><strong>Chi phí in ấn và tài liệu báo cáo</strong></td>
+<td>Quỹ nhóm</td>
+<td>In ấn tài liệu báo cáo nghiệm thu và chuẩn bị slide đồ án</td>
+<td style="text-align:center">100.000</td>
+<td>Quỹ chung của nhóm đóng góp</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>TỔNG</strong></td>
+<td><strong>TỔNG CHI PHÍ THỰC TẾ DỰ KIẾN</strong></td>
+<td></td>
+<td></td>
+<td style="text-align:center"><strong>100.000 VNĐ</strong></td>
+<td><em>Trung bình 25.000 VNĐ / thành viên (chủ yếu in ấn tài liệu)</em></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="sec-bang-uoc-tinh-chi-phi-cong-lao-dong-uoc-luong-dinh-gia-phat-trien-phan-mem-theo-chuan-hoc-thuat">Bảng ước tính chi phí công lao động (Ước lượng định giá phát triển phần mềm theo chuẩn học thuật):</h3>
+<p>Nhằm phục vụ yêu cầu hoạch định ngân sách theo chuẩn môn học Công nghệ phần mềm, nhóm đưa ra bảng quy đổi ngày công kỹ sư (Man-days / Man-hours) ước tính cho 4 thành viên trong 12 tuần (khoảng 3 tháng, trung bình mỗi thành viên dành 15 giờ/tuần):</p>
+<ul>
+<li>Tổng thời gian làm việc: 4 thành viên × 12 tuần × 15 giờ/tuần = 720 giờ công (tương đương 90 ngày công kỹ sư chuẩn 8 giờ/ngày).</li>
+<li>Đơn giá nhân công kỹ sư tập sự (Junior Developer): 150.000 VNĐ / giờ công.</li>
+<li>Giá trị lao động ước tính đóng góp vào đồ án: 720 giờ × 150.000 VNĐ = 108.000.000 VNĐ (Một trăm lẻ tám triệu đồng – giá trị nguồn lực đóng góp nội bộ nhóm).</li>
+</ul>
+<hr>
+<h1 id="sec-ket-luan">KẾT LUẬN</h1>
+<p>Tài liệu <strong>Project Proposal</strong> này đã xác định rõ ràng bài toán thực tế, giải pháp hệ thống toàn diện, danh sách các ca sử dụng then chốt, kiến trúc kỹ thuật 3 tầng hiện đại, cùng lộ trình phát triển và kế hoạch nhân sự khả thi cho đề tài <strong>StudyMate</strong>. Đây là kim chỉ nam vững chắc để toàn nhóm tự tin bước vào các giai đoạn tiếp theo (Đặc tả SRS, Thiết kế và Hiện thực hóa sản phẩm) nhằm đạt kết quả cao nhất trong môn học <strong>Nhập môn Công nghệ phần mềm</strong>.</p>
+
+            </article>
+        </main>
+    </div>
+
+    <!-- BACK TO TOP BUTTON -->
+    <button class="back-to-top" id="backToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Lên đầu trang">
+        LÊN ĐẦU TRANG
+    </button>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+        <p><strong>ĐỒ ÁN MÔN HỌC NHẬP MÔN CÔNG NGHỆ PHẦN MỀM (CSC13002)</strong></p>
+        <p>KHOA CÔNG NGHỆ THÔNG TIN – TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN, ĐHQG-HCM</p>
+        <p style="margin-top: 0.35rem; font-size: 0.725rem; letter-spacing: 0.04em;">BIÊN SOẠN THEO BIỂU MẪU TEMPLATE#0-PROJECTPROPOSAL-2022 CỦA BỘ MÔN CÔNG NGHỆ PHẦN MỀM</p>
+    </footer>
+
+    <!-- MODAL RAW MARKDOWN -->
+    <div class="modal-overlay" id="rawModal" onclick="closeRawModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>MÃ NGUỒN MARKDOWN GỐC (PROJECTPROPOSAL.MD)</h3>
+                <button class="btn" style="padding: 0.2rem 0.5rem;" onclick="closeRawModal()">ĐÓNG</button>
+            </div>
+            <div class="modal-body">
+                <textarea readonly id="rawMdArea"># TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN, ĐHQG-HCM
+## KHOA CÔNG NGHỆ THÔNG TIN – BỘ MÔN CÔNG NGHỆ PHẦN MỀM
+***
+
+# TÀI LIỆU ĐỀ XUẤT ĐỒ ÁN (PROJECT PROPOSAL)
+### MÔN HỌC: NHẬP MÔN CÔNG NGHỆ PHẦN MỀM (CSC13002)
+
+**ĐỀ TÀI:**  
+## **StudyMate – Nền tảng Hỗ trợ Tìm bạn học và Ghép nhóm học tập thông minh theo Lĩnh vực và Định hướng cá nhân**
+
+* **Giảng viên phụ trách:** Bộ môn Công nghệ phần mềm
+* **Nhóm sinh viên thực hiện:**
+  1. **Dương Hoài Đức** – MSSV: **24120040** (Trưởng nhóm)
+  2. **Trần Nguyên Tân** – MSSV: **24120438**
+  3. **Nguyễn Ngọc Phúc** – MSSV: **24120215**
+  4. **Trần Công Quang** – MSSV: **24120221**
+
+*TP. Hồ Chí Minh, Học kỳ 1 – Năm học 2026-2027*
+
+---
+
+# MỤC LỤC
+1. [Bảng đánh giá thành viên](#1-bảng-đánh-giá-thành-viên)
+2. [Phát biểu bài toán sơ lược](#2-phát-biểu-bài-toán-sơ-lược)
+   - 2.1. Bối cảnh và Lý do chọn đề tài
+   - 2.2. Mục tiêu và Phạm vi của hệ thống
+   - 2.3. Môi trường hoạt động của phần mềm
+   - 2.4. Ràng buộc về thiết kế và triển khai
+3. [Giải pháp đề xuất](#3-giải-pháp-đề-xuất)
+   - 3.1. Phần mềm
+     - 3.1.1. Danh sách các chức năng phần mềm (Bảng câu chuyện người dùng)
+     - 3.1.2. Kiến trúc tổng thể phần mềm
+   - 3.2. Phần cứng
+4. [Kế hoạch phát triển](#4-kế-hoạch-phát-triển)
+   - 4.1. Phân tích yêu cầu
+   - 4.2. Thiết kế phần mềm
+   - 4.3. Cài đặt (Implement) phần mềm
+   - 4.4. Kiểm thử phần mềm
+   - 4.5. Triển khai, bảo trì
+5. [Kế hoạch nhân sự và chi phí](#5-kế-hoạch-nhân-sự-và-chi-phí)
+   - 5.1. Cơ cấu tổ chức và Phân công vai trò
+   - 5.2. Dự toán chi phí thực hiện
+
+---
+
+# 1 Bảng đánh giá thành viên
+
+| STT | MSSV | Họ Tên | Vai trò chính trong dự án | % Đóng góp (tối đa 100%) | Chữ ký |
+|:---:|:---:|---|---|:---:|:---:|
+| 1 | **24120040** | **Dương Hoài Đức** | Trưởng nhóm (Project Manager) và Tech Lead / System Architect | 25% | *(Đã ký)* |
+| 2 | **24120438** | **Trần Nguyên Tân** | Business Analyst (BA Lead) và Backend Developer | 25% | *(Đã ký)* |
+| 3 | **24120215** | **Nguyễn Ngọc Phúc** | Frontend Lead và Full-stack Developer | 25% | *(Đã ký)* |
+| 4 | **24120221** | **Trần Công Quang** | QA/QC Lead và Realtime Specialist | 25% | *(Đã ký)* |
+
+&gt; **Cam kết:** Các thành viên trong nhóm đã cùng nhau tham gia thảo luận, thống nhất định hướng đề tài, hoàn thành các phần nội dung tương ứng và đồng thuận với tỷ lệ đánh giá đóng góp nêu trên.
+
+---
+
+# 2 Phát biểu bài toán sơ lược
+
+### 2.1. Bối cảnh và Lý do chọn đề tài
+Trong môi trường đại học hiện đại, việc học tập theo nhóm (Peer Learning) và tìm kiếm bạn cùng tiến (Study Buddy) đã được khoa học giáo dục chứng minh là phương pháp nâng cao hiệu quả tiếp thu kiến thức, rèn luyện tư duy phản biện và gia tăng động lực hoàn thành bài tập môn học. Tuy nhiên, phần lớn sinh viên hiện nay vẫn gặp phải các rào cản nghiêm trọng:
+
+1. **Khó tìm bạn đồng hành phù hợp:** Mạng lưới quen biết của sinh viên thường chỉ bó hẹp trong phạm vi lớp sinh hoạt. Khi bước vào các lớp học phần tín chỉ ghép lớp, đồ án liên ngành hoặc ôn luyện chứng chỉ ngoại ngữ (IELTS, TOEIC) / chứng chỉ kỹ thuật, việc tìm kiếm bạn học có cùng trình độ, chung mục tiêu điểm số và tương đồng về phong cách học là vô cùng khó khăn.
+2. **Sự không tương thích về phong cách học tập:** Mỗi cá nhân có phong cách học riêng biệt: một số sinh viên thích học trong không gian hoàn toàn yên lặng (Silent Study), trong khi số khác cần thảo luận sôi nổi (Discussion) hoặc lập trình đôi (Pair Programming). Việc ghép cặp ngẫu nhiên hoặc qua các kênh tự phát dễ dẫn đến bất đồng và làm giảm năng suất học tập.
+3. **Hiện tượng hủy hẹn sát giờ hoặc vắng mặt không lý do (Ghosting / No-show):** Trên các hội nhóm mạng xã hội (Facebook Group, Zalo), các buổi hẹn học chung thường xuyên bị hủy vào phút chót, đến muộn hoặc một bên không xuất hiện mà không có bất kỳ cơ chế ràng buộc hay chế tài xử lý nào.
+4. **Vấn đề an toàn và bảo mật thông tin cá nhân:** Sinh viên thường e ngại gặp gỡ bạn học mới ngoài đời thực (tại quán cafe, thư viện) do lo ngại nguy cơ lừa đảo, quấy rối hoặc rò rỉ dữ liệu cá nhân (số điện thoại, mạng xã hội cá nhân) khi chưa có sự tin cậy.
+
+Xuất phát từ thực tế đó, nhóm đề xuất xây dựng hệ thống **StudyMate** – Nền tảng chuyên biệt hỗ trợ tìm kiếm bạn học và tổ chức các phiên học tập (Study Session / Group Study) tập trung, an toàn và kỷ luật dành cho cộng đồng sinh viên.
+
+### 2.2. Khảo sát thực trạng và Phân tích đối thủ cạnh tranh trên thị trường
+Trong bối cảnh chuyển đổi số giáo dục, nhu cầu tìm bạn học cùng tiến và thành lập nhóm học tập của sinh viên ngày càng gia tăng. Tuy nhiên, các giải pháp hiện có trên thị trường đều bộc lộ những khiếm khuyết lớn, chưa thể đáp ứng trọn vẹn nhu cầu học thuật nghiêm túc và an toàn của sinh viên. Nhóm đã tiến hành khảo sát và phân tích đối chiếu với 3 nhóm đối thủ / nền tảng phổ biến nhất hiện nay:
+
+#### 2.2.1. Phân tích các giải pháp hiện có trên thị trường
+1. **Nhóm 1: Các hội nhóm Mạng xã hội tự phát (Facebook Groups, Zalo, diễn đàn sinh viên)**
+   * *Thực trạng sử dụng:* Sinh viên tự đăng bài tìm bạn học môn học phần hoặc lập nhóm làm bài tập lớn trên các hội nhóm mạng xã hội.
+   * *Hạn chế chí mạng:*
+     * *Bài viết trôi nhanh và thiếu bộ lọc:* Không có thuật toán phân loại, sinh viên phải lướt qua hàng trăm bài đăng giải trí, quảng cáo nhà trọ mới tìm thấy một bài học tập liên quan.
+     * *Vấn nạn bùng kèo (Ghosting) tràn lan:* Do không có cơ chế cam kết, người hẹn dễ dàng hủy hẹn sát giờ, đến muộn hoặc không xuất hiện mà không chịu bất kỳ chế tài nào, gây lãng phí lớn thời gian và công sức của đối phương.
+     * *Rủi ro bảo mật và quấy rối:* Việc chia sẻ số điện thoại cá nhân, link Facebook trên mạng xã hội công khai tạo kẽ hở cho các đối tượng lừa đảo, tiếp thị đa cấp hoặc quấy rối cá nhân.
+2. **Nhóm 2: Các ứng dụng Phòng học ảo và Nhóm cộng đồng trực tuyến (Discord, Study Together, Forest)**
+   * *Thực trạng sử dụng:* Cung cấp các phòng họp âm thanh/video hoặc bot đồng hồ Pomodoro để người dùng khắp nơi cùng mở máy tính ngồi học trực tuyến.
+   * *Hạn chế chí mạng:*
+     * *Nặc danh và thiếu xác thực học thuật:* Bất kỳ ai cũng có thể tạo tài khoản tham gia mà không cần chứng minh tư cách sinh viên. Thiếu cơ chế eKYC dẫn đến tình trạng người lạ vào phòng quậy phá (troll/raid), phát nội dung độc hại.
+     * *Không hỗ trợ gặp gỡ học tập trực tiếp (Offline):* Nền tảng chỉ phục vụ môi trường ảo, không có khả năng gợi ý vị trí địa lý, không tích hợp địa điểm quán cafe/thư viện quanh trường và không thể xác nhận có mặt thực tế.
+     * *Không cá nhân hóa theo môn học đại học:* Không thể ghép đôi theo đúng môn học phần của chương trình đào tạo tín chỉ tại Việt Nam (như Giải tích, Cấu trúc dữ liệu và Giải thuật, Hệ điều hành...).
+3. **Nhóm 3: Các ứng dụng Kết bạn và Hẹn hò đại chúng (Bumble BFF, Tinder)**
+   * *Thực trạng sử dụng:* Một số sinh viên thử dùng tính năng kết bạn của ứng dụng hẹn hò để tìm bạn có chung sở thích.
+   * *Hạn chế chí mạng:*
+     * *Lệch hướng mục đích cốt lõi:* Phần lớn người dùng trên các ứng dụng này tìm kiếm mối quan hệ tình cảm hoặc trò chuyện phiếm, thiếu nghiêm túc về mặt học thuật.
+     * *Hoàn toàn không có dữ liệu học thuật:* Không hỗ trợ trường thông tin về trường đại học, khoa, môn học ưu tiên, mục tiêu điểm số (kéo GPA, săn học bổng) hay phong cách học (học yên tĩnh, code đôi).
+     * *Thiếu công cụ hỗ trợ phiên học:* Không có đồng hồ Pomodoro, không có bảng mục tiêu chung (To-do list) và không có cơ chế chế tài kỷ luật học tập.
+
+#### 2.2.2. Bảng so sánh đối đầu trực diện (Competitive Feature Matrix)
+
+| Tiêu chí so sánh và Năng lực cốt lõi | Mạng xã hội tự phát (Facebook / Zalo) | Phòng học ảo trực tuyến (Discord / Study Together) | Ứng dụng kết bạn chung (Bumble BFF / Tinder) | Giải pháp đề xuất StudyMate |
+|---|:---:|:---:|:---:|:---:|
+| **1. Định danh học thuật tin cậy** *(Bắt buộc email trường `@*.edu.vn` và duyệt thẻ SV)* | Không *(Tài khoản ảo, nặc danh)* | Không *(Tự do đăng ký, không xác thực trường)* | Hạn chế *(Chỉ xác thực gương mặt, không xác thực học thuật)* | **Toàn diện** *(Bắt buộc email trường và cấp huy hiệu thẻ SV)* |
+| **2. Thuật toán gợi ý ghép bạn chuyên sâu** *(Dựa trên môn học, giờ rảnh, phong cách học)* | Không *(Đăng bài thủ công, dễ trôi tin)* | Không *(Tự tìm kênh thoại thủ công)* | Hạn chế *(Chỉ lọc khoảng cách và sở thích chung)* | **Chuyên sâu** *(Thuật toán Matching Matrix đa chiều)* |
+| **3. Mô hình học tập hỗ trợ** | Không định hình | Chỉ trực tuyến *(Online only)* | Chỉ gặp mặt trực tiếp | **Linh hoạt cả Trực tiếp (Offline) và Trực tuyến (Online)** |
+| **4. Cơ chế chống bùng kèo (Anti-ghosting)** *(Điểm uy tín và chế tài phạt khi hủy hẹn sát giờ)* | Không có | Không có | Không có | **Độc quyền** *(Hệ thống điểm uy tín Karma và phạt trừ điểm)* |
+| **5. Quét mã QR Check-in điểm hẹn** *(Xác nhận có mặt thực tế trong 15 phút đầu)* | Không hỗ trợ | Không hỗ trợ | Không hỗ trợ | **Tích hợp sẵn** *(Mã QR động xác thực có mặt tại điểm hẹn)* |
+| **6. Công cụ hỗ trợ phiên học tương tác** *(Realtime Pomodoro đôi, Shared To-do List)* | Không có | Hạn chế *(Bot Pomodoro rời rạc)* | Không có | **Tích hợp sẵn** *(Đồng bộ thời gian thực qua WebSockets)* |
+| **7. Đánh giá hai chiều ẩn danh** *(Double-Blind Review sau phiên học)* | Không có | Không có | Không *(Chỉ có báo cáo vi phạm 1 chiều)* | **Có** *(Đánh giá ẩn danh 2 chiều công bằng)* |
+| **8. Bảo mật dữ liệu và Chống quấy rối** | Rất kém *(Lộ SĐT, link cá nhân, spam)* | Kém *(Dễ bị troll/raid phòng học)* | Trung bình *(Dễ gặp đối tượng sai mục đích)* | **Tuyệt đối** *(Ẩn thông tin cá nhân, chỉ mở khi cùng ghép đôi)* |
+
+#### 2.2.3. Các giá trị khác biệt vượt trội của StudyMate (Unique Value Propositions)
+Từ kết quả phân tích so sánh, StudyMate khẳng định 4 điểm khác biệt vượt trội giúp giải pháp chiếm lĩnh ưu thế tuyệt đối trong nhóm người dùng sinh viên đại học:
+1. **Môi trường học thuật thuần túy và tin cậy (Academic-First Ecosystem):** Khác với mạng xã hội xô bồ hay app hẹn hò lệch mục đích, StudyMate là không gian học thuật chuẩn mực, nơi 100% người dùng được xác thực tư cách sinh viên và có cùng mục tiêu học tập tiến bộ.
+2. **Thuật toán Matching Matrix chuyên sâu cho đại học Việt Nam:** Tối ưu hóa việc ghép đôi dựa trên ma trận 4 trọng số: Cùng môn học phần (40%), Chung khung giờ rảnh trong tuần (30%), Mục tiêu điểm số (15%) và Phong cách học tương thích (15%).
+3. **Khung kỷ luật chống bùng kèo toàn diện duy nhất (Anti-Ghosting và Accountability):** Lần đầu tiên tích hợp quét mã QR check-in tại quán cafe/thư viện kết hợp thang điểm uy tín Karma Score, loại bỏ triệt để tình trạng bỏ bom, trễ hẹn và nâng cao trách nhiệm cá nhân của sinh viên.
+4. **Trải nghiệm khép kín từ Tìm bạn đến Tổ chức buổi học (End-to-End Study Experience):** Không dừng lại ở việc kết nối, StudyMate cung cấp trọn bộ công cụ đồng hành trong buổi học: đồng hồ Pomodoro đôi đồng bộ thời gian thực qua WebSocket, danh sách mục tiêu chung và phòng học trực tuyến WebRTC.
+
+### 2.3. Mục tiêu và Phạm vi của hệ thống
+Hệ thống phần mềm **StudyMate** hướng đến mục tiêu tạo ra một môi trường học thuật tin cậy với các năng lực chính:
+* **Hồ sơ học thuật chuẩn hóa:** Cho phép sinh viên tạo hồ sơ thể hiện rõ trường, khoa, chuyên ngành, các môn học đang quan tâm, mục tiêu học tập (cải thiện GPA, hoàn thành học phần, đạt học bổng, ôn thi chứng chỉ) và phong cách học tập ưa thích.
+* **Thuật toán gợi ý ghép đôi học tập đa chiều (Matching Matrix):** Tự động gợi ý bạn học hoặc nhóm học tương đồng nhất dựa trên môn học, khung giờ rảnh chung, vị trí địa lý thuận tiện (đối với học trực tiếp) và độ hòa hợp về phong cách.
+* **Xác thực định danh học thuật:** Bắt buộc kích hoạt tài khoản qua email sinh viên trường (`@*.edu.vn`, ưu tiên khối ĐHQG-HCM) và tích hợp cơ chế xác thực thẻ sinh viên (Student eKYC / duyệt ảnh thẻ) để cấp "Huy hiệu xác minh sinh viên" (Verified Student Badge).
+* **Không gian phiên học tương tác (Active Study Session):** Cung cấp các công cụ tiện ích trong buổi học gồm đồng hồ Pomodoro đôi đồng bộ thời gian thực (Realtime Synchronized Pomodoro), danh sách mục tiêu chung của phiên học (Shared Session To-do List), và lịch học tự động đồng bộ.
+* **Cơ chế kỷ luật và an toàn (Anti-ghosting và Safety Framework):** Quản lý điểm uy tín (Karma / Punctuality Score), cơ chế quét mã QR check-in xác nhận có mặt trực tiếp tại điểm hẹn, chế tài trừ điểm phạt khi hủy hẹn sát giờ hoặc vắng mặt không lý do, cùng hệ thống đánh giá ẩn danh hai chiều (Double-Blind Review) sau mỗi buổi học.
+
+### 2.4. Môi trường hoạt động của phần mềm
+Phần mềm StudyMate được thiết kế hoạt động trên môi trường Web hiện đại, đáp ứng linh hoạt trên nhiều thiết bị:
+* **Môi trường Client (Người dùng cuối):**
+  * Hỗ trợ trên các trình duyệt Web máy tính và thiết bị di động phổ biến hiện nay: Google Chrome (bản 100+), Microsoft Edge (bản 100+), Mozilla Firefox (bản 100+), Apple Safari (bản 15+).
+  * Giao diện Responsive tối ưu hóa cho cả màn hình Desktop/Laptop (độ phân giải từ 1280x720 trở lên) và màn hình điện thoại thông minh/máy tính bảng (iOS, Android).
+  * Yêu cầu quyền truy cập Camera của trình duyệt để thực hiện tính năng quét mã QR check-in tại buổi hẹn học.
+* **Môi trường Server (Máy chủ triển khai):**
+  * Hệ điều hành máy chủ: Linux (Ubuntu Server 22.04 LTS hoặc 24.04 LTS).
+  * Môi trường thực thi (Runtime): Node.js (phiên bản 20.x LTS trở lên) phục vụ RESTful API Server và WebSocket Server.
+  * Web Server và Reverse Proxy: Nginx làm cổng tiếp nhận HTTPS/WSS, phân tải và nén dữ liệu.
+  * Hệ quản trị cơ sở dữ liệu: PostgreSQL (phiên bản 15.x trở lên) cho toàn bộ dữ liệu có cấu trúc của hệ thống (người dùng, hồ sơ học thuật, lịch hẹn, phiên học, mã QR check-in tạm thời và điểm uy tín Karma).
+  * Giao thức truyền thông: HTTPS (bảo mật TLS 1.3) cho toàn bộ API và WSS (Secure WebSocket) cho tính năng đồng bộ thời gian thực.
+
+### 2.5. Các ràng buộc về thiết kế và triển khai
+* **Ngôn ngữ và Nền tảng:** Toàn bộ hệ thống sử dụng ngôn ngữ **TypeScript** nhằm đảm bảo tính chặt chẽ về mặt kiểu dữ liệu (Type Safety) giữa Frontend và Backend.
+  * Frontend: Next.js (React 18+) kết hợp TailwindCSS và Shadcn/ui.
+  * Backend: NestJS / Express.js với kiến trúc Module hóa rõ ràng.
+  * ORM: Prisma ORM nhằm quản lý Schema, quan hệ thực thể và Database Migrations một cách an toàn.
+* **Cơ chế an toàn và Bảo mật thông tin:**
+  * Xác thực người dùng thông qua cơ chế JWT (JSON Web Tokens: Access Token có hạn sử dụng ngắn kết hợp Refresh Token lưu trữ an toàn trong HttpOnly Cookie).
+  * Mật khẩu của người dùng được băm một chiều bằng thuật toán `bcrypt` kết hợp kỹ thuật salting ngẫu nhiên (Salt rounds = 12).
+  * Toàn bộ dữ liệu nhạy cảm (như ảnh thẻ sinh viên lúc xác thực) được lưu trữ tại thư mục an toàn của máy chủ ứng dụng với cơ chế mã hóa đường dẫn và phân quyền truy cập nội bộ chặt chẽ.
+  * Thông tin liên lạc cá nhân (Số điện thoại, tài khoản mạng xã hội) mặc định được ẩn; chỉ hiển thị khi hai người dùng đã đồng ý ghép đôi và xác nhận phiên học thành công.
+  * Tuân thủ các nguyên tắc bảo mật web cốt lõi theo khuyến nghị OWASP Top 10 (chống SQL Injection, XSS, CSRF, kiểm soát tần suất truy vấn - Rate Limiting nhằm ngăn chặn spam request và brute-force).
+* **Chuẩn tài liệu:** Tuân thủ chuẩn tài liệu theo quy định của Bộ môn Công nghệ phần mềm – Khoa CNTT, Trường ĐH Khoa học Tự nhiên TP.HCM (tương thích với chuẩn IEEE 830 ở giai đoạn đặc tả yêu cầu tiếp theo).
+
+---
+
+# 3 Giải pháp đề xuất
+
+## 3.1 Phần mềm
+
+### 3.1.1. Danh sách các chức năng phần mềm
+Nhóm sinh viên sử dụng bảng câu chuyện người dùng (User Stories) dưới đây để phân tích sự cần thiết của các chức năng, đồng thời quy định các yêu cầu và quy tắc nghiệp vụ liên quan:
+
+| STT | Nhu cầu (User Story) | Yêu cầu chức năng tương ứng | Quy định và Quy tắc nghiệp vụ liên quan |
+|:---:|---|---|---|
+| **I** | **PHÂN HỆ QUẢN LÝ TÀI KHOẢN VÀ ĐỊNH DANH SINH VIÊN** | *(4 câu chuyện người dùng)* | Quy định bảo mật và kiểm duyệt học thuật |
+| 1 | Là sinh viên, tôi muốn đăng ký tài khoản bằng email trường để đảm bảo kết nối với người học thực thụ. | Xác thực email sinh viên (`@*.edu.vn`) | Hệ thống gửi mã OTP xác thực có hiệu lực trong 10 phút. Chỉ chấp nhận các tên miền email giáo dục được hệ thống cho phép. |
+| 2 | Là người dùng, tôi muốn tạo hồ sơ học thuật gồm ngành học, môn học quan tâm, mục tiêu điểm số và phong cách học. | Quản lý hồ sơ học thuật cá nhân | Người dùng chọn tối đa 5 môn học ưu tiên trong kỳ; chọn phong cách học (Học yên tĩnh - Silent Study, Thảo luận - Discussion, Lập trình đôi - Pair Programming, Ôn tập trắc nghiệm - Flashcards). |
+| 3 | Là sinh viên, tôi muốn xác thực thẻ sinh viên để tài khoản nhận Huy hiệu xác minh sinh viên (Verified Student Badge), giúp gia tăng độ tin cậy khi tìm bạn học. | Xác thực thẻ sinh viên (Student eKYC) | Người dùng tải ảnh chụp mặt trước thẻ sinh viên rõ nét. Quản trị viên đối chiếu thông tin trùng khớp với email trường; phê duyệt và cấp huy hiệu xác thực. |
+| 4 | Là người dùng, tôi muốn cập nhật khung giờ rảnh trong tuần để hệ thống chỉ gợi ý vào những khoảng thời gian khả dụng. | Quản lý lịch rảnh cá nhân (Availability Schedule) | Người dùng đánh dấu các khung giờ rảnh theo lưới lịch 7 ngày trong tuần (Sáng / Chiều / Tối). |
+| **II** | **PHÂN HỆ TÌM KIẾM, KHÁM PHÁ VÀ GHÉP ĐÔI HỌC TẬP** | *(4 câu chuyện người dùng)* | Quy định về quyền riêng tư và tương thích |
+| 5 | Là sinh viên, tôi muốn hệ thống tự động gợi ý những bạn học có độ hòa hợp cao nhất với tôi về môn học và thời gian. | Thuật toán gợi ý ghép đôi (Matching Matrix) | Điểm tương thích tính theo trọng số: Cùng môn học (40%), Chung khung giờ rảnh (30%), Mục tiêu điểm số (15%), Phong cách học (15%). |
+| 6 | Là người dùng, tôi muốn lọc danh sách bạn học theo môn học cụ thể, địa điểm mong muốn (quán cafe, thư viện, online) và giới tính. | Bộ lọc tìm kiếm đa tiêu chí (Advanced Search và Filters) | Cho phép lọc kết hợp nhiều điều kiện; kết quả sắp xếp theo điểm hòa hợp giảm dần hoặc điểm uy tín Karma giảm dần. |
+| 7 | Là sinh viên, tôi muốn gửi lời mời học tập kèm lời nhắn mục tiêu phiên học đến bạn học tôi thấy phù hợp. | Gửi và xử lý lời mời học tập (Study Invitation) | Lời mời có hạn phản hồi trong 24 giờ. Người nhận có thể Chấp nhận hoặc Từ chối lịch sự. |
+| 8 | Là nhóm sinh viên, chúng tôi muốn tạo nhóm học tập theo môn để tìm thêm các thành viên còn thiếu cho bài tập lớn. | Tạo và quản lý Nhóm học tập (Study Group Hub) | Trưởng nhóm quy định số lượng thành viên tối đa (ví dụ 3-5 bạn), môn học, mô tả đề tài và phê duyệt yêu cầu tham gia nhóm. |
+| **III** | **PHÂN HỆ QUẢN LÝ PHIÊN HỌC TẬP VÀ LẬP LỊCH HẸN** | *(3 câu chuyện người dùng)* | Quy chế xác nhận và hủy hẹn hợp lệ |
+| 9 | Là người dùng đã ghép đôi, tôi muốn tạo một lịch hẹn học cụ thể với thời gian, địa điểm rõ ràng. | Lập lịch hẹn phiên học (Session Booking) | Chọn hình thức: Trực tiếp (Địa điểm quán cafe/thư viện cụ thể trên bản đồ) hoặc Trực tuyến (tự động tạo link phòng học ảo). |
+| 10 | Là người tham gia, tôi muốn nhận được thông báo nhắc hẹn trước giờ học để không bị quên lịch. | Hệ thống thông báo nhắc hẹn tự động | Tự động gửi thông báo qua Web Push Notification và Email trước giờ bắt đầu phiên học 2 giờ và 30 phút. |
+| 11 | Là người có việc đột xuất, tôi muốn hủy lịch hẹn với lý do chính đáng và thời gian thông báo hợp lệ. | Hủy và thay đổi lịch hẹn | Nếu hủy trước &gt; 6 giờ: Miễn phạt. Nếu hủy trong khoảng 2–6 giờ: Cảnh cáo nhẹ. Nếu hủy sát giờ &lt; 2 giờ: Trừ điểm uy tín mức nặng. |
+| **IV** | **PHÂN HỆ CÔNG CỤ HỖ TRỢ PHIÊN HỌC TƯƠNG TÁC** | *(3 câu chuyện người dùng)* | Tiêu chuẩn đồng bộ thời gian thực WebRTC/WSS |
+| 12 | Là hai bạn học cùng nhau, chúng tôi muốn có đồng hồ Pomodoro đôi chạy đồng bộ để cùng tập trung và cùng giải lao. | Đồng hồ Pomodoro đôi đồng bộ (Realtime Shared Pomodoro) | Khi một bên nhấn Bắt đầu / Tạm dừng, bên kia đồng bộ tức thời qua WebSocket. Chu kỳ chuẩn 25 phút học / 5 phút nghỉ. |
+| 13 | Là người học trong phiên, tôi muốn lập danh sách việc cần làm chung trong buổi học để theo dõi tiến độ. | Danh sách mục tiêu chung của phiên học (Shared Session To-do List) | Cả hai thành viên đều có thể thêm đầu việc, tích chọn hoàn thành và theo dõi tỷ lệ hoàn thành mục tiêu của buổi học. |
+| 14 | Là người học trực tuyến, tôi muốn có phòng học ảo tích hợp bảng trắng và chia sẻ màn hình đơn giản. | Phòng học ảo trực tuyến (Virtual Study Room) | Tích hợp giải pháp phòng học trực tuyến (WebRTC / Jitsi Meet); hỗ trợ âm thanh, video và chia sẻ màn hình trong phiên học. |
+| **V** | **PHÂN HỆ ĐẢM BẢO CAM KẾT VÀ AN TOÀN (ANTI-GHOSTING VÀ SAFETY)** | *(4 câu chuyện người dùng)* | Quy chế điểm uy tín Karma và chế tài vi phạm |
+| 15 | Là thành viên đến điểm hẹn, tôi muốn quét mã QR với bạn học để xác nhận cả hai đều có mặt đúng giờ. | Quét mã QR Check-in điểm hẹn | Mã QR động được tạo trên thiết bị của một bên và bên còn lại quét trong vòng 15 phút đầu phiên học để ghi nhận có mặt đúng giờ. |
+| 16 | Là sinh viên nghiêm túc, tôi muốn có điểm uy tín hiển thị trên hồ sơ để thể hiện mức độ đáng tin cậy của mình. | Quản lý điểm uy tín (Karma / Punctuality Score) | Khởi tạo: 100 điểm. Hoàn thành buổi học đúng giờ: +2 điểm. Đến trễ &gt; 15 phút: -5 điểm. Hủy sát giờ (&lt; 2 giờ): -15 điểm. Vắng mặt không lý do (No-show): -30 điểm. |
+| 17 | Là người học, tôi muốn đánh giá và nhận xét ẩn danh về bạn học sau khi kết thúc buổi hẹn. | Đánh giá hai chiều ẩn danh (Double-Blind Feedback) | Điểm số đánh giá (1-5 sao về thái độ, độ tập trung) chỉ được công bố sau khi cả hai bên đã hoàn tất đánh giá hoặc sau 24 giờ. |
+| 18 | Là người dùng gặp sự cố bị quấy rối hoặc sai mục đích học tập, tôi muốn báo cáo vi phạm và chặn đối tượng này. | Báo cáo vi phạm (Report) và Chặn người dùng (Block) | Chặn lập tức cắt đứt mọi liên lạc và không bao giờ gợi ý ghép đôi lại. Báo cáo kèm bằng chứng được chuyển ngay cho Quản trị viên xử lý. |
+| **VI** | **PHÂN HỆ QUẢN TRỊ HỆ THỐNG (ADMIN PORTAL)** | *(3 câu chuyện người dùng)* | Quy trình kiểm duyệt và an toàn dữ liệu |
+| 19 | Là Quản trị viên, tôi muốn xem xét và duyệt các yêu cầu xác thực thẻ sinh viên một cách nhanh chóng. | Quản lý và duyệt hồ sơ thẻ sinh viên | Giao diện cho phép đối chiếu ảnh thẻ với thông tin tài khoản, thực hiện Duyệt hoặc Từ chối kèm lý do phản hồi. |
+| 20 | Là Quản trị viên, tôi muốn xử lý các báo cáo vi phạm và áp dụng chế tài khóa tài khoản sai phạm. | Xử lý vi phạm và Quản lý người dùng | Áp dụng các mức chế tài: Cảnh cáo, Khóa quyền ghép đôi 7 ngày, Khóa vĩnh viễn tài khoản vi phạm nghiêm trọng. |
+| 21 | Là Quản trị viên, tôi muốn xem các biểu đồ thống kê về số lượng người dùng mới, tỷ lệ ghép đôi thành công và tỷ lệ hoàn thành phiên học. | Thống kê và Báo cáo tổng quan (Dashboard Analytics) | Hiển thị biểu đồ trực quan về số phiên học theo ngày/tuần, môn học được quan tâm nhiều nhất, tỷ lệ check-in thành công. |
+
+---
+
+### 3.1.2. Kiến trúc tổng thể phần mềm
+
+Hệ thống **StudyMate** được thiết kế theo mô hình **Kiến trúc 3 tầng (3-Tier Architecture)** kết hợp với cơ chế **Event-driven Realtime** qua WebSockets, bảo đảm tính độc lập, khả năng mở rộng linh hoạt và tốc độ phản hồi cao cho người dùng:
+
+```mermaid
+flowchart TD
+    subgraph Presentation["TẦNG TRÌNH DIỄN (PRESENTATION TIER)"]
+        ClientApp["&lt;b&gt;Student Web App&lt;/b&gt;&lt;br/&gt;(Next.js / React 18 / TailwindCSS)&lt;br/&gt;Pomodoro • To-do List • Quét mã QR Camera"]
+        AdminApp["&lt;b&gt;Admin Dashboard&lt;/b&gt;&lt;br/&gt;(Next.js / Shadcn UI)&lt;br/&gt;Duyệt thẻ SV • Quản lý vi phạm • Thống kê"]
+    end
+
+    subgraph Application["TẦNG NGHIỆP VỤ (APPLICATION TIER / SERVER)"]
+        ApiServer["&lt;b&gt;RESTful API Core Service (Node.js / Express / NestJS)&lt;/b&gt;&lt;br/&gt;Xác thực eKYC • Matching Matrix • Booking và Karma"]
+        RealtimeServer["&lt;b&gt;Realtime Engine (Socket.io)&lt;/b&gt;&lt;br/&gt;Đồng bộ Pomodoro đôi • Cập nhật To-do chung"]
+    end
+
+    subgraph Data["TẦNG DỮ LIỆU VÀ LƯU TRỮ (DATA VÀ STORAGE TIER)"]
+        DB[("&lt;b&gt;PostgreSQL Database&lt;/b&gt;&lt;br/&gt;Users • Profiles • Sessions • Reviews • QR Check-in")]
+        LocalStorage["&lt;b&gt;Local File Storage&lt;/b&gt;&lt;br/&gt;Lưu trữ ảnh thẻ sinh viên eKYC • Avatar người dùng"]
+    end
+
+    ClientApp &lt;--&gt;|"HTTP / REST API"| ApiServer
+    ClientApp &lt;--&gt;|"WebSocket (WSS)"| RealtimeServer
+    AdminApp &lt;--&gt;|"HTTP / REST API"| ApiServer
+    ApiServer --&gt;|"Prisma ORM"| DB
+    ApiServer --&gt;|"Lưu trữ tệp cục bộ"| LocalStorage
+    RealtimeServer -.-&gt;|"Truy vấn phiên học"| DB
+```
+
+#### Mô tả chi tiết các phân tầng:
+1. **Tầng Trình diễn (Presentation Tier):**
+   * Xây dựng bằng Next.js (React 18), tận dụng Server-Side Rendering (SSR) cho các trang công khai để tối ưu tốc độ và Client-Side Rendering (CSR) cho các trang làm việc nội bộ thời gian thực.
+   * Giao diện Responsive thích ứng mượt mà giữa máy tính và màn hình điện thoại di động thông qua TailwindCSS.
+   * Sử dụng thư viện `html5-qrcode` để truy cập camera thiết bị và xử lý quét mã QR check-in trực tiếp trên trình duyệt mà không cần cài đặt ứng dụng gốc (Native App).
+2. **Tầng Nghiệp vụ (Application Tier):**
+   * **RESTful API Service (Node.js / Express / NestJS):** Xử lý toàn bộ logic nghiệp vụ cốt lõi: xác thực tài khoản qua email trường, xét duyệt thẻ sinh viên eKYC, thuật toán tính điểm tương thích Matching Matrix, quản lý lịch hẹn và tính toán cộng/trừ điểm uy tín Karma.
+   * **Realtime Engine (Socket.io Server):** Duy trì kết nối hai chiều ổn định giữa các cặp bạn học trong từng phiên học. Phụ trách đồng bộ từng giây của đồng hồ Pomodoro đôi và truyền nhận thay đổi tức thời của danh sách mục tiêu chung (Shared To-do List).
+3. **Tầng Dữ liệu (Data Tier):**
+   * **PostgreSQL Database:** Lưu trữ tập trung toàn bộ dữ liệu có cấu trúc của hệ thống gồm Users, StudentProfiles, Subjects, Sessions, Reviews, KarmaLogs, Reports và các mã QR check-in tạm thời (kiểm tra hạn sử dụng qua trường thời gian `expires_at`). Tương tác với tầng nghiệp vụ thông qua Prisma ORM đảm bảo an toàn kiểu dữ liệu (Type-safe).
+   * **Lưu trữ Tệp cục bộ (Local File Storage):** Lưu trữ hình ảnh thẻ sinh viên phục vụ xác minh và ảnh đại diện người dùng trực tiếp trên thư mục an toàn của máy chủ ứng dụng, không phụ thuộc dịch vụ lưu trữ đám mây ngoài.
+
+---
+
+## 3.2 Phần cứng
+
+Để đảm bảo hệ thống phần mềm **StudyMate** vận hành ổn định, tin cậy và đạt hiệu năng tối ưu, các yêu cầu kỹ thuật về phần cứng cho cả môi trường máy chủ và thiết bị người dùng được xác định cụ thể như sau:
+
+### 3.2.1. Yêu cầu phần cứng Máy chủ (Server Requirements)
+Phục vụ cho giai đoạn thử nghiệm (Staging) và triển khai vận hành thực tế (Production) trong phạm vi đồ án môn học:
+
+| Thành phần phần cứng | Cấu hình tối thiểu (Minimum) | Cấu hình khuyến nghị (Recommended) |
+|---|---|---|
+| **Bộ vi xử lý (CPU)** | 2 Cores / 2 vCPUs (x86_64 hoặc ARM64) | 4 Cores / 4 vCPUs tốc độ ≥ 2.5 GHz |
+| **Bộ nhớ trong (RAM)** | 4 GB RAM | 8 GB RAM (chạy mượt mà đồng thời Node.js và PostgreSQL) |
+| **Ổ đĩa cứng (Storage)** | 40 GB SSD (tối thiểu 10 GB dung lượng trống) | 80 GB SSD chuẩn NVMe tốc độ đọc/ghi cao |
+| **Băng thông mạng (Network)** | 100 Mbps đối xứng, có IP tĩnh công khai | 1 Gbps, kết nối băng thông rộng ổn định |
+| **Cơ chế sao lưu (Backup)** | Sao lưu CSDL định kỳ hàng tuần | Cơ chế xuất tệp sao lưu dữ liệu tự động hàng ngày (pg_dump) |
+
+### 3.2.2. Yêu cầu phần cứng Thiết bị Người dùng (Client Requirements)
+Hệ thống được thiết kế theo hướng Web App nhẹ nhàng, không đòi hỏi cấu hình máy cao:
+
+* **Đối với Người dùng Sinh viên (Học viên):**
+  * Máy tính cá nhân (PC/Laptop) hoặc Điện thoại thông minh (Smartphone) / Máy tính bảng (Tablet) chạy hệ điều hành Windows, macOS, Linux, iOS (từ bản 14+) hoặc Android (từ bản 9.0+).
+  * Bộ nhớ RAM: Tối thiểu 2 GB (khuyến nghị 4 GB trở lên) để chạy mượt mà trình duyệt web hiện đại.
+  * Thiết bị ngoại vi: Có tích hợp Camera (hoặc Webcam) đang hoạt động để thực hiện quét mã QR check-in điểm hẹn; có micro/tai nghe nếu tham gia phòng học ảo trực tuyến.
+  * Kết nối mạng: Tốc độ tối thiểu 5 Mbps (4G/5G hoặc Wi-Fi).
+* **Đối với Quản trị viên (Admin):**
+  * Máy tính cá nhân hoặc Laptop với màn hình độ phân giải từ Full HD (1920x1080) trở lên nhằm tối ưu không gian hiển thị của Dashboard thống kê, danh sách duyệt thẻ sinh viên và nhật ký báo cáo vi phạm.
+
+---
+
+# 4 Kế hoạch phát triển
+
+Dự án áp dụng mô hình phát triển phần mềm **Lai ghép (Hybrid Agile/Scrum)**: Tuân thủ các cột mốc bàn giao lớn (Milestones PA01 → PA06) theo đúng tiến độ 12 tuần của môn học tại Trường ĐH Khoa học Tự nhiên TP.HCM; đồng thời bên trong nội bộ nhóm chia thành các Sprint ngắn 2 tuần/Sprint để chia nhỏ công việc, họp rà soát tiến độ (Weekly Sync định kỳ vào tối thứ Ba và thứ Bảy) và kiểm thử liên tục.
+
+Kế hoạch chi tiết và thành phẩm bàn giao cụ thể qua từng giai đoạn như sau:
+
+```mermaid
+flowchart LR
+    P1["&lt;b&gt;Tuần 01 - 03&lt;/b&gt;&lt;br/&gt;PHÂN TÍCH YÊU CẦU&lt;br/&gt;Proposal (PA01) và SRS (PA02)&lt;br/&gt;Sơ đồ Use Case"] --&gt; P2["&lt;b&gt;Tuần 04 - 06&lt;/b&gt;&lt;br/&gt;THIẾT KẾ PHẦN MỀM&lt;br/&gt;CSDL ERD (PA03) và Figma UI (PA04)&lt;br/&gt;Sequence Diagrams và SDD"]
+    P2 --&gt; P3["&lt;b&gt;Tuần 07 - 09&lt;/b&gt;&lt;br/&gt;CÀI ĐẶT VÀ LẬP TRÌNH&lt;br/&gt;Frontend, Backend, Realtime&lt;br/&gt;Bản chạy thử MVP (PA05)"]
+    P3 --&gt; P4["&lt;b&gt;Tuần 10 - 11&lt;/b&gt;&lt;br/&gt;KIỂM THỬ QA/QC&lt;br/&gt;Unit, Integration, E2E&lt;br/&gt;Test Report (Coverage ≥ 75%)"]
+    P4 --&gt; P5["&lt;b&gt;Tuần 12&lt;/b&gt;&lt;br/&gt;TRIỂN KHAI VÀ BÁO CÁO&lt;br/&gt;Production Live, Video Demo&lt;br/&gt;Báo cáo tổng kết (PA06)"]
+```
+
+### 4.1 Phân tích yêu cầu (Tuần 1 – Tuần 3)
+* **Nội dung thực hiện:**
+  * Thu thập và khảo sát nhu cầu thực tế của sinh viên về việc tìm bạn học và tình trạng hủy hẹn sát giờ hoặc vắng mặt không lý do trong học tập.
+  * Hoàn thành tài liệu Đề xuất Đồ án (**Project Proposal – PA01**).
+  * Chi tiết hóa các câu chuyện người dùng, xây dựng danh mục chức năng đầy đủ và yêu cầu phi chức năng.
+  * Xây dựng tài liệu Đặc tả Yêu cầu Phần mềm (**Software Requirements Specification - SRS, PA02**) theo chuẩn.
+  * Vẽ biểu đồ Use Case tổng quát và viết kịch bản chi tiết (Use Case Specifications) cho các ca sử dụng chính: Ghép đôi bạn học, Đặt lịch hẹn phiên học, Quét mã QR check-in, Đánh giá và tính điểm uy tín Karma.
+* **Thành phẩm cụ thể:**
+  * File tài liệu `ProjectProposal.docx` và `ProjectProposal.pdf`.
+  * Tài liệu `SRS.docx` kèm sơ đồ Use Case và bảng mô tả đặc tả chi tiết.
+
+### 4.2 Thiết kế phần mềm (Tuần 4 – Tuần 6)
+* **Nội dung thực hiện:**
+  * Thiết kế Kiến trúc phần mềm chi tiết (Software Architecture Document - SAD): Mô hình đa tầng, các dịch vụ thành phần, giao thức kết nối.
+  * Thiết kế Cơ sở dữ liệu: Vẽ sơ đồ quan hệ thực thể (ERD), chuẩn hóa dữ liệu đạt chuẩn 3NF, thiết kế chi tiết bảng CSDL (Physical Schema) trong PostgreSQL (**PA03**).
+  * Thiết kế Giao diện người dùng: Dựng khung sườn giao diện (Wireframe), xây dựng bản mẫu tương tác độ trung thực cao (High-fidelity Interactive UI/UX Prototype) trên Figma cho toàn bộ các màn hình Client và Admin (**PA04**).
+  * Thiết kế hành vi hệ thống: Vẽ sơ đồ tuần tự (Sequence Diagram) cho các luồng nghiệp vụ phức tạp (luồng Check-in bằng mã QR, luồng đồng bộ Pomodoro đôi thời gian thực, luồng xử lý trừ điểm khi vắng mặt không lý do).
+* **Thành phẩm cụ thể:**
+  * File thiết kế CSDL (File SQL script migration, sơ đồ ERD sắc nét).
+  * Đường dẫn Figma Prototype đầy đủ màn hình và Design System chuẩn màu sắc / typography.
+  * Tài liệu Thiết kế phần mềm (Software Design Document - SDD).
+
+### 4.3 Cài đặt (implement) phần mềm (Tuần 7 – Tuần 9)
+* **Nội dung thực hiện:**
+  * Khởi tạo Repository trên GitHub, cấu hình quy chuẩn Git Flow (nhánh `main`, `develop`, các nhánh tính năng `feature/*`), thiết lập công cụ phân tích mã tĩnh (ESLint, Prettier) và CI pipeline cơ bản (GitHub Actions).
+  * Xây dựng tầng Cơ sở dữ liệu: Định nghĩa Prisma Schema, khởi chạy migrations tạo cấu trúc bảng trên PostgreSQL, nạp dữ liệu mẫu ban đầu (Seed data: danh mục trường, khoa, môn học phổ biến).
+  * Xây dựng tầng Backend API: Lập trình các Controller, Service xử lý logic xác thực JWT, gửi OTP email trường, API Matching Matrix, API Booking và Session Management, và xử lý nghiệp vụ Karma.
+  * Xây dựng phân hệ Realtime: Thiết lập Socket.io Server đồng bộ Pomodoro đôi và Shared To-do List theo Room ID của từng phiên học.
+  * Xây dựng tầng Frontend: Lập trình các trang giao diện bằng Next.js theo thiết kế Figma, kết nối API Backend, hoàn thiện chức năng quét mã QR bằng camera trình duyệt.
+  * Hoàn thiện phân hệ Admin Portal quản lý và duyệt hồ sơ thẻ sinh viên.
+* **Thành phẩm cụ thể:**
+  * Mã nguồn hoàn chỉnh trên GitHub với lịch sử Commit rõ ràng, tuân thủ quy trình Pull Request Review.
+  * Phiên bản ứng dụng hoạt động thực nghiệm đầu tiên (**Working Prototype / MVP – PA05**).
+
+### 4.4 Kiểm thử phần mềm (Tuần 10 – Tuần 11)
+* **Nội dung thực hiện:**
+  * Xây dựng Kế hoạch Kiểm thử (Test Plan) chi tiết, xác định các cấp độ kiểm thử và tiêu chí nghiệm thu (Acceptance Criteria).
+  * Viết và thực thi Unit Test cho các hàm nghiệp vụ trọng tâm (thuật toán tính điểm tương thích, logic trừ điểm khi vi phạm lịch hẹn, luật kiểm tra phát hiện xung đột lịch học) sử dụng Jest.
+  * Viết Integration Test cho toàn bộ các Endpoint của RESTful API bằng Supertest.
+  * Xây dựng kịch bản kiểm thử tự động đầu cuối (End-to-End Testing - E2E) bằng Playwright cho các luồng then chốt: Đăng ký → Ghép đôi → Đặt lịch → Quét QR check-in.
+  * Thực hiện kiểm thử thủ công (Manual Testing) về độ tương thích giao diện trên nhiều kích thước màn hình thiết bị (Responsive Testing) và kiểm thử chấp nhận người dùng (User Acceptance Testing - UAT).
+  * Rà soát lỗ hổng bảo mật cơ bản theo OWASP Top 10 (SQL Injection, Token Tampering, Rate limit bypass).
+  * Ghi nhận và khắc phục triệt để các lỗi phát sinh (Bug fixing).
+* **Thành phẩm cụ thể:**
+  * Tài liệu Kế hoạch và Báo cáo kết quả kiểm thử (Test Report) kèm số liệu độ bao phủ kiểm thử (Code Coverage ≥ 75%).
+  * Bộ kiểm thử tự động (Automated Test Suite) tích hợp chạy thành công trên GitHub Actions.
+
+### 4.5 Triển khai, bảo trì (Tuần 12)
+* **Nội dung thực hiện:**
+  * Đóng gói phần mềm, cài đặt và cấu hình hoàn chỉnh hệ thống trên máy chủ thử nghiệm (Local Test Server) phục vụ buổi báo cáo nghiệm thu đồ án.
+  * Tiến hành thử nghiệm diện hẹp (Pilot Testing) với 20–30 sinh viên trong trường để thu thập phản hồi thực tế và tinh chỉnh.
+  * Soạn thảo tài liệu hướng dẫn người dùng (User Manual) và tài liệu hướng dẫn cài đặt, vận hành dành cho Quản trị viên (Admin và Installation Guide).
+  * Chuẩn bị Slide thuyết trình báo cáo, quay video clip demo kịch bản sản phẩm và hoàn tất tài liệu tổng kết đồ án (**PA06**).
+* **Thành phẩm cụ thể:**
+  * Bản cài đặt và mã nguồn hệ thống hoạt động ổn định trên máy chủ thử nghiệm.
+  * Slide báo cáo bảo vệ đồ án và Video demo tính năng hoàn chỉnh.
+  * Bộ tài liệu hướng dẫn sử dụng và báo cáo tổng kết đồ án.
+
+---
+
+# 5 Kế hoạch nhân sự và chi phí
+
+## 5.1 Cơ cấu tổ chức và Phân công vai trò
+Nhóm phát triển dự án bao gồm 4 thành viên với sự phân công vai trò rõ ràng, chuyên môn hóa theo quy trình công nghệ phần mềm hiện đại nhưng luôn hỗ trợ chéo lẫn nhau:
+
+```mermaid
+flowchart TD
+    PM["&lt;b&gt;TRƯỞNG NHÓM (PROJECT MANAGER) VÀ TECH LEAD&lt;/b&gt;&lt;br/&gt;Dương Hoài Đức (24120040)&lt;br/&gt;&lt;i&gt;Điều phối tổng thể, Kiến trúc 3-Tier, Backend Core, Bảo mật&lt;/i&gt;"]
+    
+    FE["&lt;b&gt;FRONTEND LEAD VÀ FULL-STACK DEVELOPER&lt;/b&gt;&lt;br/&gt;Nguyễn Ngọc Phúc (24120215)&lt;br/&gt;&lt;i&gt;Kiến trúc Web App Next.js, Tích hợp API Full-stack, Hiệu năng&lt;/i&gt;"]
+    
+    BA["&lt;b&gt;BA LEAD VÀ BACKEND DEVELOPER&lt;/b&gt;&lt;br/&gt;Trần Nguyên Tân (24120438)&lt;br/&gt;&lt;i&gt;Đặc tả yêu cầu SRS, Thiết kế CSDL PostgreSQL, Matching Matrix&lt;/i&gt;"]
+    
+    QA["&lt;b&gt;QA/QC LEAD VÀ REALTIME DEVELOPER&lt;/b&gt;&lt;br/&gt;Trần Công Quang (24120221)&lt;br/&gt;&lt;i&gt;Test Plan, E2E Testing Playwright, Phân hệ Realtime Socket.io&lt;/i&gt;"]
+
+    PM --&gt; FE
+    PM --&gt; BA
+    PM --&gt; QA
+```
+
+* **1. Dương Hoài Đức (MSSV: 24120040) – Trưởng nhóm (Project Manager) và Tech Lead / Backend Architect:**
+  * *Trách nhiệm chính:* Điều phối tiến độ tổng thể, phân bổ nhiệm vụ trên GitHub Projects, tổ chức các buổi họp định kỳ; thiết kế kiến trúc tổng thể hệ thống (3-Tier Architecture); thiết lập môi trường phát triển chung, CI/CD Pipeline và quy chuẩn mã nguồn.
+  * *Tham gia kỹ thuật:* Phụ trách phần hạ tầng Backend Core, phân quyền RBAC, xác thực JWT và cấu hình bảo mật.
+* **2. Nguyễn Ngọc Phúc (MSSV: 24120215) – Frontend Lead và Full-stack Developer:**
+  * *Trách nhiệm chính:* Chủ trì xây dựng kiến trúc phân hệ Frontend Web App trên nền tảng Next.js (React 18+) và TypeScript; chuẩn hóa cấu trúc thành phần giao diện với TailwindCSS; quản trị trạng thái ứng dụng Client-side và điều phối tích hợp mã nguồn giao diện.
+  * *Tham gia kỹ thuật:* Lập trình phát triển các tính năng Full-stack (kết nối Client với Node.js/Express API); tích hợp thư viện html5-qrcode quét mã QR Camera; tối ưu hóa tốc độ tải trang, trải nghiệm tương tác (Core Web Vitals) và tính tương thích Responsive trên thiết bị di động.
+* **3. Trần Nguyên Tân (MSSV: 24120438) – Business Analyst (BA Lead) và Backend Developer:**
+  * *Trách nhiệm chính:* Làm rõ yêu cầu nghiệp vụ, soạn thảo tài liệu Proposal (PA01) và tài liệu SRS (PA02); đặc tả chi tiết các Use Case; thiết kế Schema cơ sở dữ liệu quan hệ (PostgreSQL / Prisma).
+  * *Tham gia kỹ thuật:* Lập trình các API nghiệp vụ chính (Thuật toán Matching Matrix, dịch vụ Lập lịch hẹn Session Booking, xử lý logic tính điểm uy tín Karma).
+* **4. Trần Công Quang (MSSV: 24120221) – QA/QC Lead và Realtime Specialist:**
+  * *Trách nhiệm chính:* Lập kế hoạch kiểm thử (Test Plan); thiết lập hệ thống kiểm thử tự động (Unit Test Jest, E2E Playwright); kiểm soát chất lượng mã nguồn và rà soát bug trước mỗi đợt nộp bài.
+  * *Tham gia kỹ thuật:* Lập trình phân hệ Realtime Socket.io (đồng bộ đồng hồ Pomodoro đôi, Shared To-do List) và lập trình chức năng Camera quét mã QR check-in xác nhận có mặt tại điểm hẹn.
+
+---
+
+## 5.2 Dự toán chi phí thực hiện
+
+Dự án StudyMate định hướng sử dụng hoàn toàn các công nghệ phần mềm mã nguồn mở (Node.js, PostgreSQL, Next.js, Socket.io) và tận dụng môi trường máy tính sẵn có của các thành viên trong nhóm nhằm tiết kiệm tối đa ngân sách. Toàn bộ các công cụ phục vụ phát triển đều hoàn toàn miễn phí dành cho sinh viên.
+
+Dưới đây là bảng dự toán chi phí chi tiết cho vòng đời phát triển dự án (ước tính cho 3 tháng thử nghiệm và vận hành đồ án):
+
+### Bảng dự toán chi phí thực tế (Dịch vụ và Công cụ):
+
+| STT | Hạng mục chi phí | Đơn vị cung cấp | Mô tả chi tiết và Gói dịch vụ | Chi phí dự kiến (VNĐ) | Ghi chú tài trợ / Tối ưu |
+|:---:|---|---|---|:---:|---|
+| 1 | **Hệ quản trị CSDL** | PostgreSQL | CSDL quan hệ mã nguồn mở cài đặt cục bộ trên máy chủ phát triển | 0 | Phần mềm mã nguồn mở miễn phí |
+| 2 | **Môi trường thực thi và API** | Node.js / Express | Nền tảng thực thi JavaScript mã nguồn mở cho Backend API và Realtime | 0 | Phần mềm mã nguồn mở miễn phí |
+| 3 | **Giao diện và Ứng dụng Web** | Next.js / React | Framework Frontend mã nguồn mở | 0 | Phần mềm mã nguồn mở miễn phí |
+| 4 | **Lưu trữ tệp đa phương tiện** | Local File Storage | Lưu trữ ảnh thẻ sinh viên eKYC và avatar trực tiếp trên ổ cứng máy chủ | 0 | Tận dụng dung lượng đĩa cứng máy chủ |
+| 5 | **Dịch vụ Email sinh viên** | Giao thức SMTP trường | Gửi OTP kích hoạt tài khoản và email thông báo qua cổng SMTP | 0 | Miễn phí qua giao thức SMTP chuẩn |
+| 6 | **Công cụ Thiết kế và Quản lý dự án** | Figma và GitHub | Figma Professional và GitHub Team Projects | 0 | Tài trợ miễn phí 100% theo chương trình GitHub Education |
+| 7 | **Chi phí in ấn và tài liệu báo cáo** | Quỹ nhóm | In ấn tài liệu báo cáo nghiệm thu và chuẩn bị slide đồ án | 100.000 | Quỹ chung của nhóm đóng góp |
+| **TỔNG** | **TỔNG CHI PHÍ THỰC TẾ DỰ KIẾN** | | | **100.000 VNĐ** | *Trung bình 25.000 VNĐ / thành viên (chủ yếu in ấn tài liệu)* |
+
+---
+
+### Bảng ước tính chi phí công lao động (Ước lượng định giá phát triển phần mềm theo chuẩn học thuật):
+
+Nhằm phục vụ yêu cầu hoạch định ngân sách theo chuẩn môn học Công nghệ phần mềm, nhóm đưa ra bảng quy đổi ngày công kỹ sư (Man-days / Man-hours) ước tính cho 4 thành viên trong 12 tuần (khoảng 3 tháng, trung bình mỗi thành viên dành 15 giờ/tuần):
+
+* Tổng thời gian làm việc: 4 thành viên × 12 tuần × 15 giờ/tuần = 720 giờ công (tương đương 90 ngày công kỹ sư chuẩn 8 giờ/ngày).
+* Đơn giá nhân công kỹ sư tập sự (Junior Developer): 150.000 VNĐ / giờ công.
+* Giá trị lao động ước tính đóng góp vào đồ án: 720 giờ × 150.000 VNĐ = 108.000.000 VNĐ (Một trăm lẻ tám triệu đồng – giá trị nguồn lực đóng góp nội bộ nhóm).
+
+---
+
+# KẾT LUẬN
+
+Tài liệu **Project Proposal** này đã xác định rõ ràng bài toán thực tế, giải pháp hệ thống toàn diện, danh sách các ca sử dụng then chốt, kiến trúc kỹ thuật 3 tầng hiện đại, cùng lộ trình phát triển và kế hoạch nhân sự khả thi cho đề tài **StudyMate**. Đây là kim chỉ nam vững chắc để toàn nhóm tự tin bước vào các giai đoạn tiếp theo (Đặc tả SRS, Thiết kế và Hiện thực hóa sản phẩm) nhằm đạt kết quả cao nhất trong môn học **Nhập môn Công nghệ phần mềm**.
+</textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="copyRawMd()">SAO CHÉP TOÀN BỘ</button>
+                <a class="btn" href="ProjectProposal.md" download>TẢI FILE .MD</a>
+                <button class="btn btn-primary" onclick="closeRawModal()">ĐÓNG</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // THEME TOGGLE (LIGHT / DARK)
+        const themeBtn = document.getElementById('themeToggleBtn');
+        const themeText = document.getElementById('themeText');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        themeBtn.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            applyTheme(target);
+            localStorage.setItem('theme', target);
+        });
+
+        function applyTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            if (theme === 'dark') {
+                themeText.textContent = 'CHẾ ĐỘ SÁNG';
+            } else {
+                themeText.textContent = 'CHẾ ĐỘ TỐI';
+            }
+        }
+
+        // BACK TO TOP
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        // MODAL FUNCTIONS
+        function openRawModal() {
+            document.getElementById('rawModal').classList.add('active');
+        }
+
+        function closeRawModal(e) {
+            document.getElementById('rawModal').classList.remove('active');
+        }
+
+        function copyRawMd() {
+            const textarea = document.getElementById('rawMdArea');
+            textarea.select();
+            navigator.clipboard.writeText(textarea.value).then(() => {
+                alert('Đã sao chép toàn bộ mã nguồn Markdown vào clipboard!');
+            });
+        }
+
+        // SAFE SCROLL SPY FOR SIDEBAR TOC
+        const tocLinks = document.querySelectorAll('.toc-item a');
+        const trackedSections = [];
+        
+        tocLinks.forEach(link => {
+            const targetId = link.getAttribute('data-target');
+            if (targetId) {
+                const el = document.getElementById(targetId);
+                if (el) {
+                    trackedSections.push({ id: targetId, element: el, link: link });
+                }
+            }
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY + 120;
+            let currentId = '';
+
+            for (let i = 0; i < trackedSections.length; i++) {
+                const item = trackedSections[i];
+                if (item.element.offsetTop <= scrollPos) {
+                    currentId = item.id;
+                }
+            }
+
+            trackedSections.forEach(item => {
+                if (item.id === currentId) {
+                    item.link.classList.add('active');
+                } else {
+                    item.link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
